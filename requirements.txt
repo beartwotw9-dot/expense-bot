@@ -1,0 +1,10 @@
+google-genai
+httpx
+python-dotenv
+discord.py
+apscheduler
+yfinance
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+pytz

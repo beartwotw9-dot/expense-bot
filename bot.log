@@ -1,0 +1,566 @@
+[2026-03-21 17:28:04] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:28:06] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9fc264175b807416aa0b73746a813b9d).
+[2026-03-21 17:30:26] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:30:28] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 06870da1676d33f2e91fcf2c91e8964c).
+[2026-03-21 17:30:49] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:30:51] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: d558497612e64c804cecbe95d51e41f8).
+[2026-03-21 17:43:16] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:43:18] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 32ba79e91e65ad3bbabfe3735a9571dd).
+[2026-03-21 17:43:52] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:43:54] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 5b2bac435a27221ec88d5a49c955f588).
+Traceback (most recent call last):
+  File "/Users/youxinhua/expense-bot/discord_bot.py", line 97, in <module>
+    HAS_NUMBER = re.compile(r"\d")
+                 ^^
+NameError: name 're' is not defined. Did you forget to import 're'?
+Traceback (most recent call last):
+  File "/Users/youxinhua/expense-bot/discord_bot.py", line 97, in <module>
+    # ── Embed Colors ───────────────────────────────────────────────────────────────
+             ^^
+NameError: name 're' is not defined. Did you forget to import 're'?
+[2026-03-21 17:50:30] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:50:31] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: c1aa1144aefd2dd53224fef25c0b3573).
+[2026-03-21 17:57:01] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:57:03] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: ae3c4e30791f6296502f59bc46547152).
+[2026-03-21 17:57:17] [INFO    ] discord.client: logging in using static token
+[2026-03-21 17:57:19] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 5f1965761238b2359849c0e53b94a022).
+[2026-03-21 18:07:18] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:07:20] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 2d456d1f0e3667e8bb5bed5628ed5ff1).
+[2026-03-21 18:07:47] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:07:49] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 27603292c2093d990bade1e0c92edb6b).
+[2026-03-21 18:08:35] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:08:36] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 2311873b14a583b6a968220c6f825ecf).
+[2026-03-21 18:09:28] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:09:29] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 0ec7f9d82ad74a1981d399d299ebb324).
+[2026-03-21 18:10:32] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:10:34] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 14db25034ad84f776f143870b4b3bf91).
+[2026-03-21 18:12:47] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:12:48] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: c8a3655d2d97adcf00663a52406314eb).
+[2026-03-21 18:15:55] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:15:57] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 1f210a9f1d20ba5e1eeeabb032976093).
+[2026-03-21 18:18:39] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:18:40] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 63acbecc838351171c16b680e4c9b3b8).
+[2026-03-21 18:20:29] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:20:30] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 57822932e6b5479cd199516034524639).
+[2026-03-21 18:30:40] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:30:42] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9d2e666ef4b49e351efef2a1121064d3).
+[2026-03-21 18:31:34] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:31:36] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 790f76bcb10b9d2ec2c2a7ce94b8d887).
+[2026-03-21 18:43:13] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:43:16] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: b48197da256719373b62c0c1b5ecc249).
+[2026-03-21 18:44:52] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:44:54] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: cb4073d57bbbff0dacce13628a3d466e).
+[2026-03-21 18:51:22] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:51:24] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: f9dac4f0a28bafccf464e3816966e066).
+[2026-03-21 18:52:09] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:52:13] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 0f49aa8ccd9b79104d4c9c5d1f94f188).
+[2026-03-21 18:53:17] [INFO    ] discord.client: logging in using static token
+[2026-03-21 18:53:19] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: a4c23660acc182bdc741d571597df9b2).
+[2026-03-21 19:01:29] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:01:31] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: a06f8ab3053ba7892b4ef00b033a9ed5).
+[2026-03-21 19:07:33] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:07:35] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 370fe187da838f51fe0d8383b1ef2c84).
+[2026-03-21 19:26:39] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:26:41] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9aee52a6f153aab19c28e3f33b4111cb).
+[2026-03-21 19:27:39] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:27:41] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 5a6d508ae172dde38bebdcdf67a16c83).
+[2026-03-21 19:28:07] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:28:09] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 2b3b2f9c32af65bad59c09d05ffd2725).
+[2026-03-21 19:29:29] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:29:32] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 46f9fa580abfbea61f3f0eac06134610).
+[2026-03-21 19:31:08] [INFO    ] discord.client: logging in using static token
+[2026-03-21 19:31:11] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9513057f3d8c9fe7014a098d11fbdd6e).
+[2026-03-21 21:53:22] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-21 21:53:28] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 59d307704e67f454fa7cfd1c1bc5a241).
+[2026-03-21 21:58:17] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-21 21:58:23] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 57e0462b2b7e46103db04ee2c4a25f22).
+[2026-03-21 22:03:13] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-21 22:03:19] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 0674a331b50e6c0ea5e31e4036512460).
+[2026-03-21 22:07:09] [INFO    ] discord.client: logging in using static token
+[2026-03-21 22:07:10] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: b08fb4d6ee82e83a4ef46581990d942f).
+[2026-03-21 22:08:40] [INFO    ] discord.client: logging in using static token
+[2026-03-21 22:08:43] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: a3c32d280b2a683b61126e83e7174c1a).
+[2026-03-21 22:12:52] [INFO    ] discord.client: logging in using static token
+[2026-03-21 22:12:54] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 57b851ae5072bba1a18f251c8be9964a).
+[2026-03-21 23:54:18] [INFO    ] discord.client: logging in using static token
+[2026-03-21 23:54:19] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 86d1250f87c496a67852171fc1a271d9).
+[2026-03-22 00:13:28] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 00:13:34] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 0778874973bffac249f842570f654157).
+[2026-03-22 00:19:44] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 00:19:50] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 08b2513177ee7305a0142526f8cb582c).
+[2026-03-22 00:34:59] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 00:35:05] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 2b8cddd5ea73dd8f38374607745ccbaa).
+[2026-03-22 01:40:48] [INFO    ] discord.gateway: Shard ID None has successfully RESUMED session 2b8cddd5ea73dd8f38374607745ccbaa.
+[2026-03-22 05:19:11] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 05:19:17] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: acae37635c5ffff27d5faf37c46a222f).
+[2026-03-22 08:07:20] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 08:07:26] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: efb8425b4d371834f7227566d812749f).
+[2026-03-22 08:22:32] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 08:22:38] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 36f287506771a95a808635d06155f629).
+[2026-03-22 08:26:04] [ERROR   ] discord.client: Attempting a reconnect in 0.46s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 08:26:05] [ERROR   ] discord.client: Attempting a reconnect in 0.32s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 08:26:05] [ERROR   ] discord.client: Attempting a reconnect in 2.89s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 08:26:08] [ERROR   ] discord.client: Attempting a reconnect in 13.87s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 09:00:01] [ERROR   ] discord.client: Attempting a reconnect in 31.61s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 09:00:32] [ERROR   ] discord.client: Attempting a reconnect in 13.58s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 09:00:46] [ERROR   ] discord.client: Attempting a reconnect in 83.34s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 09:35:53] [ERROR   ] discord.client: Attempting a reconnect in 90.23s
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1562, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1178, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1209, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/base_events.py", line 905, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/client.py", line 728, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/gateway.py", line 392, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/discord/http.py", line 571, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 1076, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 779, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/client.py", line 734, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1239, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/youxinhua/miniconda3/lib/python3.12/site-packages/aiohttp/connector.py", line 1568, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [nodename nor servname provided, or not known]
+[2026-03-22 09:37:24] [INFO    ] discord.gateway: Shard ID None session has been invalidated.
+[2026-03-22 09:37:31] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 6d99467e7880b1af6f3133d3e4ea8dc6).
+Run time of job "send_morning_report (trigger: cron[hour='8', minute='0'], next run at: 2026-03-23 08:00:00 CST)" was missed by 1:55:31.542669
