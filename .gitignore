@@ -1,0 +1,8 @@
+.env
+token.json
+client_secret_*.json
+email_cache.json
+market_cache.json
+bot.log
+__pycache__/
+*.pyc
