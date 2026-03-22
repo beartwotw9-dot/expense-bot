@@ -19,6 +19,17 @@ import gmail_helper
 
 load_dotenv()
 
+# ── Gmail Token 還原（Railway 雲端用）────────────────────────────────────────
+import base64 as _b64
+def _restore_credentials():
+    for env_var, filename in [("GMAIL_TOKEN_B64","token.json"),("GMAIL_CREDENTIALS_B64","credentials.json")]:
+        val = os.environ.get(env_var,"")
+        if val:
+            with open(filename,"w") as f:
+                f.write(_b64.b64decode(val).decode())
+_restore_credentials()
+# ─────────────────────────────────────────────────────────────────────────────
+
 TAIPEI   = pytz.timezone("Asia/Taipei")
 WEEKDAYS = ["一", "二", "三", "四", "五", "六", "日"]
 ENV_PATH          = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
