@@ -196,19 +196,47 @@ async def notion_save(title: str, content: str, tag: str) -> bool:
     try:
         from notion_client import AsyncClient
         notion = AsyncClient(auth=NOTION_TOKEN)
+
+        # Fetch DB schema to build properties dynamically
+        db_info = await notion.databases.retrieve(database_id=NOTION_NOTES_DB)
+        db_props = db_info.get("properties", {})
+        prop_names = set(db_props.keys())
+
+        properties: dict = {}
+
+        # Title — try common names
+        for t_name in ("標題", "名稱", "Name", "title"):
+            if t_name in prop_names:
+                properties[t_name] = {"title": [{"text": {"content": title}}]}
+                break
+
+        # Content / memo
+        for c_name in ("備註", "內容", "Content", "content"):
+            if c_name in prop_names:
+                properties[c_name] = {"rich_text": [{"text": {"content": content}}]}
+                break
+
+        # Type (select)
+        if "類型" in prop_names:
+            properties["類型"] = {"select": {"name": _tag_to_type(tag)}}
+
+        # Topic (multi_select)
+        if "主題" in prop_names:
+            properties["主題"] = {"multi_select": [{"name": _tag_to_topic(tag)}]}
+
+        # Status (select)
+        if "狀態" in prop_names:
+            properties["狀態"] = {"select": {"name": "📥 收件匣"}}
+
         await notion.pages.create(
             parent={"database_id": NOTION_NOTES_DB},
-            properties={
-                "標題": {"title": [{"text": {"content": title}}]},
-                "備註": {"rich_text": [{"text": {"content": content}}]},
-                "類型": {"select": {"name": _tag_to_type(tag)}},
-                "主題": {"multi_select": [{"name": _tag_to_topic(tag)}]},
-                "狀態": {"select": {"name": "📥 收件匣"}},
-            },
+            properties=properties,
         )
         return True
     except Exception as e:
+        import traceback
         print(f"[Notion] save failed: {e}")
+        traceback.print_exc()
         return False
 
 
@@ -397,18 +425,34 @@ async def notion_diary_save(title: str, content: str, mood: str) -> bool:
         from notion_client import AsyncClient
         notion = AsyncClient(auth=NOTION_TOKEN)
         now_iso = datetime.datetime.now(TZ).isoformat()
+
+        db_info = await notion.databases.retrieve(database_id=NOTION_DIARY_DB)
+        db_props = db_info.get("properties", {})
+        prop_names = set(db_props.keys())
+
+        properties: dict = {}
+        for t_name in ("標題", "名稱", "Name", "title"):
+            if t_name in prop_names:
+                properties[t_name] = {"title": [{"text": {"content": title}}]}
+                break
+        for c_name in ("內容", "備註", "Content"):
+            if c_name in prop_names:
+                properties[c_name] = {"rich_text": [{"text": {"content": content}}]}
+                break
+        if "日期" in prop_names:
+            properties["日期"] = {"date": {"start": now_iso}}
+        if "心情" in prop_names:
+            properties["心情"] = {"select": {"name": mood}}
+
         await notion.pages.create(
             parent={"database_id": NOTION_DIARY_DB},
-            properties={
-                "標題": {"title": [{"text": {"content": title}}]},
-                "內容": {"rich_text": [{"text": {"content": content}}]},
-                "日期": {"date": {"start": now_iso}},
-                "心情": {"select": {"name": mood}},
-            },
+            properties=properties,
         )
         return True
     except Exception as e:
+        import traceback
         print(f"[Notion Diary] save failed: {e}")
+        traceback.print_exc()
         return False
 
 
@@ -420,17 +464,32 @@ async def notion_morning_save(title: str, summary: str) -> bool:
         from notion_client import AsyncClient
         notion = AsyncClient(auth=NOTION_TOKEN)
         now_iso = datetime.datetime.now(TZ).isoformat()
+
+        db_info = await notion.databases.retrieve(database_id=NOTION_MORNING_DB)
+        db_props = db_info.get("properties", {})
+        prop_names = set(db_props.keys())
+
+        properties: dict = {}
+        for t_name in ("標題", "名稱", "Name", "title"):
+            if t_name in prop_names:
+                properties[t_name] = {"title": [{"text": {"content": title}}]}
+                break
+        for c_name in ("內容", "備註", "Content"):
+            if c_name in prop_names:
+                properties[c_name] = {"rich_text": [{"text": {"content": summary[:2000]}}]}
+                break
+        if "日期" in prop_names:
+            properties["日期"] = {"date": {"start": now_iso}}
+
         await notion.pages.create(
             parent={"database_id": NOTION_MORNING_DB},
-            properties={
-                "標題": {"title": [{"text": {"content": title}}]},
-                "內容": {"rich_text": [{"text": {"content": summary[:2000]}}]},
-                "日期": {"date": {"start": now_iso}},
-            },
+            properties=properties,
         )
         return True
     except Exception as e:
+        import traceback
         print(f"[Notion Morning] save failed: {e}")
+        traceback.print_exc()
         return False
 
 
@@ -815,6 +874,65 @@ async def _handle_diary(message: discord.Message, text: str):
         reply += "\n⚠️ Notion 未設定（請填入 NOTION_TOKEN 和 NOTION_DIARY_DB_ID）"
 
     await message.reply(reply, mention_author=False)
+
+
+# ============================================================
+# Diagnostic command — /診斷
+# ============================================================
+@bot.tree.command(name="診斷", description="測試 Notion 連線與資料庫欄位")
+async def slash_diagnose(interaction: discord.Interaction):
+    if OWNER_ID and interaction.user.id != OWNER_ID:
+        await interaction.response.send_message("⛔ 僅限 Bot 擁有者", ephemeral=True)
+        return
+
+    await interaction.response.defer(ephemeral=True)
+    lines: list[str] = []
+
+    # Check env vars
+    lines.append(f"**NOTION_TOKEN**: {'✅ 已設定' if NOTION_TOKEN else '❌ 未設定'}")
+    lines.append(f"**NOTION_NOTES_DB**: {'✅ ' + NOTION_NOTES_DB[:8] + '...' if NOTION_NOTES_DB else '❌ 未設定'}")
+    lines.append(f"**NOTION_DIARY_DB**: {'✅ ' + NOTION_DIARY_DB[:8] + '...' if NOTION_DIARY_DB else '❌ 未設定'}")
+    lines.append(f"**NOTION_MORNING_DB**: {'✅ ' + NOTION_MORNING_DB[:8] + '...' if NOTION_MORNING_DB else '❌ 未設定'}")
+    lines.append(f"**ANTHROPIC_API_KEY**: {'✅ 已設定' if ANTHROPIC_API_KEY else '❌ 未設定'}")
+    lines.append("")
+
+    # Test Notion Notes DB
+    if NOTION_TOKEN and NOTION_NOTES_DB:
+        try:
+            from notion_client import AsyncClient
+            notion = AsyncClient(auth=NOTION_TOKEN)
+            db = await notion.databases.retrieve(database_id=NOTION_NOTES_DB)
+            db_title = db.get("title", [{}])[0].get("plain_text", "(無標題)")
+            lines.append(f"**筆記 DB**: `{db_title}`")
+            props = db.get("properties", {})
+            for name, info in props.items():
+                ptype = info.get("type", "?")
+                lines.append(f"  • `{name}` ({ptype})")
+        except Exception as e:
+            lines.append(f"❌ 筆記 DB 連線失敗：{e}")
+    else:
+        lines.append("⚠️ 筆記 DB 未設定，跳過")
+
+    lines.append("")
+
+    # Test Notion Diary DB
+    if NOTION_TOKEN and NOTION_DIARY_DB:
+        try:
+            from notion_client import AsyncClient
+            notion = AsyncClient(auth=NOTION_TOKEN)
+            db = await notion.databases.retrieve(database_id=NOTION_DIARY_DB)
+            db_title = db.get("title", [{}])[0].get("plain_text", "(無標題)")
+            lines.append(f"**日記 DB**: `{db_title}`")
+            props = db.get("properties", {})
+            for name, info in props.items():
+                ptype = info.get("type", "?")
+                lines.append(f"  • `{name}` ({ptype})")
+        except Exception as e:
+            lines.append(f"❌ 日記 DB 連線失敗：{e}")
+    else:
+        lines.append("⚠️ 日記 DB 未設定，跳過")
+
+    await interaction.followup.send("\n".join(lines), ephemeral=True)
 
 
 # ============================================================
