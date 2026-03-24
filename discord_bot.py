@@ -30,18 +30,18 @@ load_dotenv()
 def _int_env(key: str) -> int:
     return int(os.getenv(key, "") or "0")
 
-TOKEN               = os.environ["DISCORD_BOT_TOKEN"]
+TOKEN               = os.environ["DISCORD_TOKEN"]
 GUILD_ID            = _int_env("DISCORD_GUILD_ID")
 MORNING_CH_ID       = _int_env("DISCORD_MORNING_CHANNEL_ID")
-EXPENSE_CH_ID       = _int_env("DISCORD_EXPENSE_CHANNEL_ID")
+EXPENSE_CH_ID       = _int_env("DISCORD_CHANNEL_ID")
 NOTES_CH_ID         = _int_env("DISCORD_NOTES_CHANNEL_ID")
 DIARY_CH_ID         = _int_env("DISCORD_DIARY_CHANNEL_ID")
 OWNER_ID            = _int_env("DISCORD_OWNER_ID")
 DASHBOARD_URL       = os.getenv("DASHBOARD_URL", "http://localhost:8787")
 WEBHOOK_SECRET      = os.getenv("WEBHOOK_SECRET", "")
 NOTION_TOKEN        = os.getenv("NOTION_TOKEN", "")
-NOTION_NOTES_DB     = os.getenv("NOTION_NOTES_DB_ID", "")
-NOTION_DIARY_DB     = os.getenv("NOTION_DIARY_DB_ID", "")
+NOTION_NOTES_DB     = os.getenv("NOTION_DATABASE_ID", "")
+NOTION_DIARY_DB     = os.getenv("NOTION_DIARY_DB", "")
 ANTHROPIC_API_KEY   = os.getenv("ANTHROPIC_API_KEY", "")
 NEWS_RSS_URL        = os.getenv("NEWS_RSS_URL", "https://www.cna.com.tw/rss/aall.aspx")
 
@@ -632,6 +632,12 @@ async def on_message(message: discord.Message):
         return
 
     text = message.content.strip()
+
+    # Always process bot commands first (e.g. !晨報, !help)
+    # so that command-prefixed messages are never swallowed by channel handlers.
+    if text.startswith(bot.command_prefix):
+        await bot.process_commands(message)
+        return
 
     # ---- Diary channel ----
     if DIARY_CH_ID and message.channel.id == DIARY_CH_ID:
