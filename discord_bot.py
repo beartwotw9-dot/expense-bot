@@ -196,9 +196,9 @@ async def ai_note_comment(text: str) -> str:
     return await _gemini_generate(
         "用戶剛剛記了一則筆記，請你以好朋友的身份給一個溫暖回應。"
         "可以開個小玩笑、追問細節、或給建議。"
-        "回應 30 字以內，自然且有溫度：\n\n" + text,
+        "長度大約 50 字內，**請務必確保寫完最後一句話，不要斷尾**：\n\n" + text,
         system=HUABOT_PERSONA,
-        max_tokens=120,
+        max_tokens=300,
     )
 
 
@@ -395,10 +395,10 @@ async def ai_news_impact(headlines: list[dict]) -> str:
     headline_text = "\n".join(f"・{h['title']}" for h in headlines)
     return await _gemini_generate(
         "以下是今日台灣新聞頭條，請用 2-3 句話分析這些新聞對一般上班族今天的日常生活"
-        "可能有什麼影響或需要注意的事（繁體中文，口吻輕鬆直接，不要列點）：\n\n"
+        "可能有什麼影響或需要注意的事（繁體中文，口吻輕鬆直接，不要列點，並且確保句子完整不要斷尾）：\n\n"
         + headline_text,
         system=HUABOT_PERSONA,
-        max_tokens=180,
+        max_tokens=300,
     )
 
 
@@ -442,9 +442,9 @@ async def ai_diary_reflection(text: str) -> str:
     return await _gemini_generate(
         "用戶寫了一篇日記，請你像好朋友一樣回應。"
         "可以開玩笑、表達關心、追問細節、或給建議。"
-        "回應 40 字以內，要有溫度且真誠：\n\n" + text,
+        "長度大約 50 字內，**請務必確保寫完最後一句話，不要斷尾**：\n\n" + text,
         system=HUABOT_PERSONA,
-        max_tokens=150,
+        max_tokens=300,
     )
 
 
