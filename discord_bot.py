@@ -40,8 +40,9 @@ OWNER_ID            = _int_env("DISCORD_OWNER_ID")
 DASHBOARD_URL       = os.getenv("DASHBOARD_URL", "http://localhost:8787")
 WEBHOOK_SECRET      = os.getenv("WEBHOOK_SECRET", "")
 NOTION_TOKEN        = os.getenv("NOTION_TOKEN", "")
-NOTION_NOTES_DB     = os.getenv("NOTION_DATABASE_ID", "")
+NOTION_NOTES_DB     = os.getenv("NOTION_DATABASE_ID", "") or os.getenv("NOTION_NOTE_DB", "")
 NOTION_DIARY_DB     = os.getenv("NOTION_DIARY_DB", "")
+NOTION_MORNING_DB   = os.getenv("NOTION_MORNING_DB", "")
 ANTHROPIC_API_KEY   = os.getenv("ANTHROPIC_API_KEY", "")
 NEWS_RSS_URL        = os.getenv("NEWS_RSS_URL", "https://www.cna.com.tw/rss/aall.aspx")
 
@@ -174,20 +175,35 @@ async def ai_note_comment(text: str) -> str:
         return ""
 
 
+def _tag_to_type(tag: str) -> str:
+    """Map classify_tag output to 個人知識庫 類型 options."""
+    return {"待辦": "待辦", "想法": "想法"}.get(tag, "筆記")
+
+
+def _tag_to_topic(tag: str) -> str:
+    """Map classify_tag output to 個人知識庫 主題 options."""
+    return {
+        "工作": "工作職涯",
+        "生活": "生活健康",
+        "學習": "學習成長",
+        "想法": "創意靈感",
+    }.get(tag, "其他")
+
+
 async def notion_save(title: str, content: str, tag: str) -> bool:
     if not NOTION_TOKEN or not NOTION_NOTES_DB:
         return False
     try:
         from notion_client import AsyncClient
         notion = AsyncClient(auth=NOTION_TOKEN)
-        now_iso = datetime.datetime.now(TZ).isoformat()
         await notion.pages.create(
             parent={"database_id": NOTION_NOTES_DB},
             properties={
                 "標題": {"title": [{"text": {"content": title}}]},
-                "內容": {"rich_text": [{"text": {"content": content}}]},
-                "時間": {"date": {"start": now_iso}},
-                "標籤": {"select": {"name": tag}},
+                "備註": {"rich_text": [{"text": {"content": content}}]},
+                "類型": {"select": {"name": _tag_to_type(tag)}},
+                "主題": {"multi_select": [{"name": _tag_to_topic(tag)}]},
+                "狀態": {"select": {"name": "📥 收件匣"}},
             },
         )
         return True
@@ -206,9 +222,9 @@ async def notion_search(query: str) -> list[dict]:
             database_id=NOTION_NOTES_DB,
             filter={"or": [
                 {"property": "標題", "title":     {"contains": query}},
-                {"property": "內容", "rich_text": {"contains": query}},
+                {"property": "備註", "rich_text": {"contains": query}},
             ]},
-            sorts=[{"property": "時間", "direction": "descending"}],
+            sorts=[{"property": "新增日期", "direction": "descending"}],
             page_size=5,
         )
         return res.get("results", [])
@@ -225,11 +241,11 @@ async def notion_list(tag_filter: str | None = None) -> list[dict]:
         notion = AsyncClient(auth=NOTION_TOKEN)
         kwargs: dict = {
             "database_id": NOTION_NOTES_DB,
-            "sorts": [{"property": "時間", "direction": "descending"}],
+            "sorts": [{"property": "新增日期", "direction": "descending"}],
             "page_size": 10,
         }
         if tag_filter:
-            kwargs["filter"] = {"property": "標籤", "select": {"equals": tag_filter}}
+            kwargs["filter"] = {"property": "類型", "select": {"equals": tag_filter}}
         res = await notion.databases.query(**kwargs)
         return res.get("results", [])
     except Exception as e:
@@ -244,8 +260,8 @@ def fmt_pages(pages: list[dict]) -> str:
     for p in pages:
         try:
             title = p["properties"]["標題"]["title"][0]["text"]["content"]
-            date  = p["properties"]["時間"]["date"]["start"][:10]
-            sel   = p["properties"].get("標籤", {}).get("select") or {}
+            date  = p["properties"]["新增日期"]["created_time"][:10]
+            sel   = p["properties"].get("類型", {}).get("select") or {}
             tag   = f" `{sel['name']}`" if sel.get("name") else ""
             lines.append(f"• {date}{tag} {title}")
         except (KeyError, IndexError):
@@ -393,6 +409,28 @@ async def notion_diary_save(title: str, content: str, mood: str) -> bool:
         return True
     except Exception as e:
         print(f"[Notion Diary] save failed: {e}")
+        return False
+
+
+async def notion_morning_save(title: str, summary: str) -> bool:
+    """Save morning report to Notion morning database."""
+    if not NOTION_TOKEN or not NOTION_MORNING_DB:
+        return False
+    try:
+        from notion_client import AsyncClient
+        notion = AsyncClient(auth=NOTION_TOKEN)
+        now_iso = datetime.datetime.now(TZ).isoformat()
+        await notion.pages.create(
+            parent={"database_id": NOTION_MORNING_DB},
+            properties={
+                "標題": {"title": [{"text": {"content": title}}]},
+                "內容": {"rich_text": [{"text": {"content": summary[:2000]}}]},
+                "日期": {"date": {"start": now_iso}},
+            },
+        )
+        return True
+    except Exception as e:
+        print(f"[Notion Morning] save failed: {e}")
         return False
 
 
@@ -560,6 +598,13 @@ async def _send_morning_report():
     embed.set_footer(text="Hua Command Center • 每日 08:00 自動發送")
     await ch.send(embed=embed)
 
+    # Save to Notion morning report database
+    report_title = f"晨報 {now.strftime('%Y/%m/%d')}（週{day}）"
+    fields_text = "\n\n".join(
+        f"【{f.name}】\n{f.value}" for f in embed.fields
+    )
+    await notion_morning_save(report_title, fields_text)
+
 
 def _progress_bar(pct: int, width: int = 8) -> str:
     filled = round(pct / 100 * width)
@@ -637,6 +682,20 @@ async def on_message(message: discord.Message):
     # so that command-prefixed messages are never swallowed by channel handlers.
     if text.startswith(bot.command_prefix):
         await bot.process_commands(message)
+        return
+
+    # Handle @mention + !command pattern (e.g. "@bot !晨報")
+    if bot.user and bot.user.mentioned_in(message):
+        clean = re.sub(r'<@!?\d+>', '', text).strip()
+        if clean.startswith(bot.command_prefix):
+            original_content = message.content
+            message.content = clean
+            ctx = await bot.get_context(message)
+            message.content = original_content
+            if ctx.valid:
+                await bot.invoke(ctx)
+                return
+        # Bare mention or unknown mention pattern — ignore, don't treat as expense
         return
 
     # ---- Diary channel ----
