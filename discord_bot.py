@@ -870,7 +870,7 @@ async def _handle_notes(message: discord.Message, text: str):
     comment = await ai_note_comment(text)
     reply = f"📝 記下來了！`[{tag}]`"
     if notion_url:
-        reply += f" [🔗 查看 Notion]({notion_url})"
+        reply += f"\n🔗 <{notion_url}>"
     if comment:
         reply += f"\n> {comment}"
     if not notion_url and (NOTION_TOKEN or NOTION_NOTES_DB):
@@ -897,7 +897,7 @@ async def _handle_diary(message: discord.Message, text: str):
 
     reply = f"{emoji} 日記記錄了！心情：`{mood}`"
     if notion_url:
-        reply += f" [🔗 查看 Notion]({notion_url})"
+        reply += f"\n🔗 <{notion_url}>"
     if reflection:
         reply += f"\n> {reflection}"
     if not notion_url and (NOTION_TOKEN or NOTION_DIARY_DB):
