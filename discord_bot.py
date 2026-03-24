@@ -48,6 +48,17 @@ NEWS_RSS_URL        = os.getenv("NEWS_RSS_URL", "https://www.cna.com.tw/rss/aall
 
 TZ = ZoneInfo("Asia/Taipei")
 
+# HuaBot persona — 溫暖貼心好朋友
+HUABOT_PERSONA = (
+    "你是 HuaBot，用戶的溫暖貼心好朋友。"
+    "你的個性特質："
+    "1. 會開玩笑、用 emoji、口氣輕鬆活潑；"
+    "2. 主動追問細節，對用戶說的事感到好奇；"
+    "3. 適時給建議或提醒；"
+    "4. 表現出持續關心，像好朋友一樣記得之前的事。"
+    "語言：繁體中文。不要加引號。"
+)
+
 
 # ============================================================
 # Feature 3 — Expense categorization rules
@@ -154,7 +165,7 @@ async def classify_tag(text: str) -> str:
 
 
 async def ai_note_comment(text: str) -> str:
-    """Return a short, casual one-line reply about the note."""
+    """Return a warm, personality-rich reply about the note."""
     if not ANTHROPIC_API_KEY:
         return ""
     try:
@@ -162,11 +173,14 @@ async def ai_note_comment(text: str) -> str:
         client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
         resp = client.messages.create(
             model="claude-haiku-4-5-20251001",
-            max_tokens=40,
+            max_tokens=120,
+            system=HUABOT_PERSONA,
             messages=[{
                 "role": "user",
                 "content": (
-                    "針對這則個人筆記，給一句15字以內的輕鬆繁體中文回應（不要加引號）：\n" + text
+                    "用戶剛剛記了一則筆記，請你以好朋友的身份給一個溫暖回應。"
+                    "可以開個小玩笑、追問細節、或給建議。"
+                    "回應 30 字以內，自然且有溫度：\n\n" + text
                 ),
             }],
         )
@@ -395,7 +409,7 @@ async def ai_diary_mood(text: str) -> str:
 
 
 async def ai_diary_reflection(text: str) -> str:
-    """Warm, brief reflection on a diary entry (≤20 chars)."""
+    """Warm, personality-rich reflection on a diary entry."""
     if not ANTHROPIC_API_KEY:
         return ""
     try:
@@ -403,12 +417,14 @@ async def ai_diary_reflection(text: str) -> str:
         client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
         resp = await client.messages.create(
             model="claude-haiku-4-5-20251001",
-            max_tokens=60,
+            max_tokens=150,
+            system=HUABOT_PERSONA,
             messages=[{
                 "role": "user",
                 "content": (
-                    "對以下日記內容，給一句溫暖且有感的繁體中文回應（20字以內，不加引號）：\n"
-                    + text
+                    "用戶寫了一篇日記，請你像好朋友一樣回應。"
+                    "可以開玩笑、表達關心、追問細節、或給建議。"
+                    "回應 40 字以內，要有溫度且真誠：\n\n" + text
                 ),
             }],
         )
