@@ -232,6 +232,8 @@ def _set_prop(properties: dict, db_props: dict, name: str, value: str) -> None:
         properties[name] = {"multi_select": [{"name": value}]}
     elif ptype == "url":
         properties[name] = {"url": value}
+    elif ptype == "status":
+        properties[name] = {"status": {"name": value}}
     elif ptype == "number":
         try:
             properties[name] = {"number": float(value)}
