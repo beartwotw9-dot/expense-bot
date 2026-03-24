@@ -242,9 +242,9 @@ def _set_prop(properties: dict, db_props: dict, name: str, value: str) -> None:
     # skip unsupported types silently
 
 
-async def notion_save(title: str, content: str, tag: str) -> bool:
+async def notion_save(title: str, content: str, tag: str, url: str = "") -> str | None:
     if not NOTION_TOKEN or not NOTION_NOTES_DB:
-        return False
+        return None
     try:
         from notion_client import AsyncClient
         notion = AsyncClient(auth=NOTION_TOKEN)
@@ -287,23 +287,23 @@ async def notion_save(title: str, content: str, tag: str) -> bool:
         if "來源" in db_props:
             ptype = db_props["來源"].get("type", "")
             if ptype == "rich_text":
-                _set_prop(properties, db_props, "來源", "Discord #note")
+                _set_prop(properties, db_props, "來源", url or "Discord #note")
             elif ptype == "url":
-                _set_prop(properties, db_props, "來源", "https://discord.com")
+                _set_prop(properties, db_props, "來源", url or "https://discord.com")
             elif ptype == "select":
                 _set_prop(properties, db_props, "來源", "Discord")
 
         print(f"[Notion] writing properties: {list(properties.keys())}")
-        await notion.pages.create(
+        page = await notion.pages.create(
             parent={"database_id": NOTION_NOTES_DB},
             properties=properties,
         )
-        return True
+        return page.get("url")
     except Exception as e:
         import traceback
         print(f"[Notion] save failed: {e}")
         traceback.print_exc()
-        return False
+        return None
 
 
 async def notion_search(query: str) -> list[dict]:
@@ -448,10 +448,10 @@ async def ai_diary_reflection(text: str) -> str:
     )
 
 
-async def notion_diary_save(title: str, content: str, mood: str) -> bool:
+async def notion_diary_save(title: str, content: str, mood: str, url: str = "") -> str | None:
     """Save diary entry to Notion diary database."""
     if not NOTION_TOKEN or not NOTION_DIARY_DB:
-        return False
+        return None
     try:
         from notion_client import AsyncClient
         notion = AsyncClient(auth=NOTION_TOKEN)
@@ -474,17 +474,25 @@ async def notion_diary_save(title: str, content: str, mood: str) -> bool:
             properties["日期"] = {"date": {"start": now_iso}}
         if "心情" in prop_names:
             properties["心情"] = {"select": {"name": mood}}
+        
+        # Source
+        if "來源" in db_props:
+            ptype = db_props["來源"].get("type", "")
+            if ptype == "rich_text":
+                properties["來源"] = {"rich_text": [{"text": {"content": url or "Discord #diary"}}]}
+            elif ptype == "url":
+                properties["來源"] = {"url": url or "https://discord.com"}
 
-        await notion.pages.create(
+        page = await notion.pages.create(
             parent={"database_id": NOTION_DIARY_DB},
             properties=properties,
         )
-        return True
+        return page.get("url")
     except Exception as e:
         import traceback
         print(f"[Notion Diary] save failed: {e}")
         traceback.print_exc()
-        return False
+        return None
 
 
 async def notion_morning_save(title: str, summary: str) -> bool:
@@ -857,15 +865,17 @@ async def _handle_notes(message: discord.Message, text: str):
     # ---- Save note ----
     tag   = await classify_tag(text)
     title = text[:50] + ("…" if len(text) > 50 else "")
-    ok    = await notion_save(title, text, tag)
+    notion_url = await notion_save(title, text, tag, message.jump_url)
 
     comment = await ai_note_comment(text)
     reply = f"📝 記下來了！`[{tag}]`"
+    if notion_url:
+        reply += f" [🔗 查看 Notion]({notion_url})"
     if comment:
         reply += f"\n> {comment}"
-    if not ok and (NOTION_TOKEN or NOTION_NOTES_DB):
+    if not notion_url and (NOTION_TOKEN or NOTION_NOTES_DB):
         reply += "\n⚠️ Notion 儲存失敗，請確認設定"
-    elif not ok:
+    elif not notion_url:
         reply += _no_notion_warn()
 
     await message.reply(reply, mention_author=False)
@@ -881,16 +891,18 @@ async def _handle_diary(message: discord.Message, text: str):
     preview = text[:30] + ("…" if len(text) > 30 else "")
     title   = f"{now.strftime('%Y/%m/%d')} {preview}"
 
-    ok = await notion_diary_save(title, text, mood)
+    notion_url = await notion_diary_save(title, text, mood, message.jump_url)
 
     reflection = await ai_diary_reflection(text)
 
     reply = f"{emoji} 日記記錄了！心情：`{mood}`"
+    if notion_url:
+        reply += f" [🔗 查看 Notion]({notion_url})"
     if reflection:
         reply += f"\n> {reflection}"
-    if not ok and (NOTION_TOKEN or NOTION_DIARY_DB):
+    if not notion_url and (NOTION_TOKEN or NOTION_DIARY_DB):
         reply += "\n⚠️ Notion 儲存失敗，請確認設定"
-    elif not ok:
+    elif not notion_url:
         reply += "\n⚠️ Notion 未設定（請填入 NOTION_TOKEN 和 NOTION_DIARY_DB_ID）"
 
     await message.reply(reply, mention_author=False)
