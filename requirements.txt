@@ -1,10 +1,19 @@
-google-genai
-httpx
+# Web App
+fastapi
+uvicorn[standard]
+sqlmodel
 python-dotenv
-discord.py
-apscheduler
-yfinance
-google-auth-oauthlib
-google-auth-httplib2
-google-api-python-client
+jinja2
+aiofiles
 pytz
+icalendar>=5.0.0
+python-multipart>=0.0.9
+apscheduler>=3.10.0
+httpx
+psycopg2-binary>=2.9.9
+
+# Discord Bot
+discord.py>=2.3.0
+anthropic>=0.25.0
+notion-client>=2.2.0
+feedparser>=6.0.0
