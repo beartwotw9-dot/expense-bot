@@ -165,30 +165,42 @@ def parse_expense(text: str) -> dict | None:
 # ============================================================
 # Feature 4 helpers — Notion notes
 # ============================================================
-async def classify_tag(text: str) -> str:
-    """Classify note into one of 6 tags. Uses Gemini if key is set."""
+async def classify_note_details(text: str) -> tuple[str, str]:
+    """Classify note into type and topic based on user's schema using Gemini."""
     if GEMINI_API_KEY:
-        tag = await _gemini_generate(
-            "將以下筆記分類為：工作、生活、學習、想法、待辦、其他。"
-            "只回答分類名稱，不要任何其他文字。\n\n" + text,
-            max_tokens=8,
+        import json
+        prompt = (
+            "請將以下筆記分類，並嚴格使用 JSON 格式回傳，格式為: {\"type\": \"類型\", \"topic\": \"主題\"}\n"
+            "不要加 Markdown 區塊或前後廢話，必須是能直接 json.loads 的字串。\n"
+            "【允許的 type 選擇】：連結、待辦、會議記錄、工具/App、筆記、想法、檔案\n"
+            "【允許的 topic 選擇】：工作職涯、技術程式、財務投資、生活健康、學習成長、專案管理、創意靈感、其他\n\n"
+            "內容：\n" + text
         )
-        tag = tag.strip()
-        if tag in ("工作", "生活", "學習", "想法", "待辦", "其他"):
-            return tag
+        res = await _gemini_generate(prompt, max_tokens=30)
+        try:
+            # 清理可能的 markdown codeblock
+            raw = res.strip()
+            if raw.startswith("```json"): raw = raw[7:]
+            if raw.endswith("```"): raw = raw[:-3]
+            data = json.loads(raw.strip())
+            ntype = data.get("type", "筆記")
+            ntopic = data.get("topic", "其他")
+            return ntype, ntopic
+        except Exception:
+            pass
 
     # Keyword fallback
-    if any(w in text for w in ["工作", "專案", "會議", "報告", "客戶", "deadline", "同事"]):
-        return "工作"
-    if any(w in text for w in ["買", "吃", "玩", "旅", "電影", "朋友", "家人"]):
-        return "生活"
-    if any(w in text for w in ["學", "讀", "課", "練習", "筆記", "複習", "考試"]):
-        return "學習"
-    if any(w in text for w in ["想", "覺得", "感覺", "如果", "或許", "應該", "要不要"]):
-        return "想法"
-    if any(w in text for w in ["記得", "要", "待辦", "todo", "需要", "別忘", "提醒"]):
-        return "待辦"
-    return "其他"
+    ntype = "筆記"
+    if "todo" in text.lower() or "待辦" in text: ntype = "待辦"
+    elif "會議" in text or "meeting" in text.lower(): ntype = "會議記錄"
+    elif "http" in text: ntype = "連結"
+
+    ntopic = "其他"
+    if "工作" in text or "上班" in text: ntopic = "工作職涯"
+    elif "投資" in text or "錢" in text: ntopic = "財務投資"
+    elif "程式" in text or "code" in text.lower(): ntopic = "技術程式"
+
+    return ntype, ntopic
 
 
 async def ai_note_comment(text: str) -> str:
@@ -244,7 +256,7 @@ def _set_prop(properties: dict, db_props: dict, name: str, value: str) -> None:
     # skip unsupported types silently
 
 
-async def notion_save(title: str, content: str, tag: str, url: str = "") -> str | None:
+async def notion_save(title: str, content: str, note_type: str, note_topic: str, url: str = "") -> str | None:
     if not NOTION_TOKEN or not NOTION_NOTES_DB:
         return None
     try:
@@ -271,11 +283,11 @@ async def notion_save(title: str, content: str, tag: str, url: str = "") -> str 
 
         # Type
         if "類型" in db_props:
-            _set_prop(properties, db_props, "類型", _tag_to_type(tag))
+            _set_prop(properties, db_props, "類型", note_type)
 
         # Topic
         if "主題" in db_props:
-            _set_prop(properties, db_props, "主題", _tag_to_topic(tag))
+            _set_prop(properties, db_props, "主題", note_topic)
 
         # Status
         if "狀態" in db_props:
@@ -283,7 +295,7 @@ async def notion_save(title: str, content: str, tag: str, url: str = "") -> str 
 
         # Priority default
         if "優先級" in db_props:
-            _set_prop(properties, db_props, "優先級", "中")
+            _set_prop(properties, db_props, "優先級", "🟡 中")
 
         # Source
         if "來源" in db_props:
@@ -865,12 +877,12 @@ async def _handle_notes(message: discord.Message, text: str):
         return
 
     # ---- Save note ----
-    tag   = await classify_tag(text)
+    note_type, note_topic = await classify_note_details(text)
     title = text[:50] + ("…" if len(text) > 50 else "")
-    notion_url = await notion_save(title, text, tag, message.jump_url)
+    notion_url = await notion_save(title, text, note_type, note_topic, message.jump_url)
 
     comment = await ai_note_comment(text)
-    reply = f"📝 記下來了！`[{tag}]`"
+    reply = f"📝 記下來了！`[{note_type} / {note_topic}]`"
     if notion_url:
         reply += f"\n🔗 <{notion_url}>"
     if comment:
