@@ -204,6 +204,31 @@ def _tag_to_topic(tag: str) -> str:
     }.get(tag, "其他")
 
 
+def _set_prop(properties: dict, db_props: dict, name: str, value: str) -> None:
+    """Set a property value based on its actual type in the Notion DB schema."""
+    if name not in db_props:
+        return
+    ptype = db_props[name].get("type", "")
+    if ptype == "title":
+        properties[name] = {"title": [{"text": {"content": value}}]}
+    elif ptype == "rich_text":
+        properties[name] = {"rich_text": [{"text": {"content": value}}]}
+    elif ptype == "select":
+        properties[name] = {"select": {"name": value}}
+    elif ptype == "multi_select":
+        properties[name] = {"multi_select": [{"name": value}]}
+    elif ptype == "url":
+        properties[name] = {"url": value}
+    elif ptype == "number":
+        try:
+            properties[name] = {"number": float(value)}
+        except ValueError:
+            pass
+    elif ptype == "date":
+        properties[name] = {"date": {"start": value}}
+    # skip unsupported types silently
+
+
 async def notion_save(title: str, content: str, tag: str) -> bool:
     if not NOTION_TOKEN or not NOTION_NOTES_DB:
         return False
@@ -214,34 +239,48 @@ async def notion_save(title: str, content: str, tag: str) -> bool:
         # Fetch DB schema to build properties dynamically
         db_info = await notion.databases.retrieve(database_id=NOTION_NOTES_DB)
         db_props = db_info.get("properties", {})
-        prop_names = set(db_props.keys())
 
         properties: dict = {}
 
         # Title — try common names
         for t_name in ("標題", "名稱", "Name", "title"):
-            if t_name in prop_names:
-                properties[t_name] = {"title": [{"text": {"content": title}}]}
+            if t_name in db_props:
+                _set_prop(properties, db_props, t_name, title)
                 break
 
         # Content / memo
         for c_name in ("備註", "內容", "Content", "content"):
-            if c_name in prop_names:
-                properties[c_name] = {"rich_text": [{"text": {"content": content}}]}
+            if c_name in db_props:
+                _set_prop(properties, db_props, c_name, content)
                 break
 
-        # Type (select)
-        if "類型" in prop_names:
-            properties["類型"] = {"select": {"name": _tag_to_type(tag)}}
+        # Type
+        if "類型" in db_props:
+            _set_prop(properties, db_props, "類型", _tag_to_type(tag))
 
-        # Topic (multi_select)
-        if "主題" in prop_names:
-            properties["主題"] = {"multi_select": [{"name": _tag_to_topic(tag)}]}
+        # Topic
+        if "主題" in db_props:
+            _set_prop(properties, db_props, "主題", _tag_to_topic(tag))
 
-        # Status (select)
-        if "狀態" in prop_names:
-            properties["狀態"] = {"select": {"name": "📥 收件匣"}}
+        # Status
+        if "狀態" in db_props:
+            _set_prop(properties, db_props, "狀態", "📥 收件匣")
 
+        # Priority default
+        if "優先級" in db_props:
+            _set_prop(properties, db_props, "優先級", "中")
+
+        # Source
+        if "來源" in db_props:
+            ptype = db_props["來源"].get("type", "")
+            if ptype == "rich_text":
+                _set_prop(properties, db_props, "來源", "Discord #note")
+            elif ptype == "url":
+                _set_prop(properties, db_props, "來源", "https://discord.com")
+            elif ptype == "select":
+                _set_prop(properties, db_props, "來源", "Discord")
+
+        print(f"[Notion] writing properties: {list(properties.keys())}")
         await notion.pages.create(
             parent={"database_id": NOTION_NOTES_DB},
             properties=properties,
