@@ -43,7 +43,7 @@ NOTION_TOKEN        = os.getenv("NOTION_TOKEN", "")
 NOTION_NOTES_DB     = os.getenv("NOTION_DATABASE_ID", "") or os.getenv("NOTION_NOTE_DB", "")
 NOTION_DIARY_DB     = os.getenv("NOTION_DIARY_DB", "")
 NOTION_MORNING_DB   = os.getenv("NOTION_MORNING_DB", "")
-ANTHROPIC_API_KEY   = os.getenv("ANTHROPIC_API_KEY", "")
+GEMINI_API_KEY      = os.getenv("GEMINI_API_KEY", "")
 NEWS_RSS_URL        = os.getenv("NEWS_RSS_URL", "https://www.cna.com.tw/rss/aall.aspx")
 
 TZ = ZoneInfo("Asia/Taipei")
@@ -58,6 +58,44 @@ HUABOT_PERSONA = (
     "4. 表現出持續關心，像好朋友一樣記得之前的事。"
     "語言：繁體中文。不要加引號。"
 )
+
+
+# Shared Gemini helper
+def _get_gemini_model(system_instruction: str | None = None):
+    """Return a configured Gemini GenerativeModel."""
+    from google import genai
+    client = genai.Client(api_key=GEMINI_API_KEY)
+    return client
+
+
+async def _gemini_generate(
+    prompt: str,
+    *,
+    system: str | None = None,
+    max_tokens: int = 120,
+) -> str:
+    """Call Gemini and return the text response."""
+    if not GEMINI_API_KEY:
+        return ""
+    try:
+        from google import genai
+        from google.genai import types
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        config = types.GenerateContentConfig(
+            max_output_tokens=max_tokens,
+        )
+        if system:
+            config.system_instruction = system
+        resp = await asyncio.to_thread(
+            client.models.generate_content,
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=config,
+        )
+        return resp.text.strip() if resp.text else ""
+    except Exception as e:
+        print(f"[Gemini] generate failed: {e}")
+        return ""
 
 
 # ============================================================
@@ -128,27 +166,16 @@ def parse_expense(text: str) -> dict | None:
 # Feature 4 helpers — Notion notes
 # ============================================================
 async def classify_tag(text: str) -> str:
-    """Classify note into one of 6 tags. Uses Claude if key is set."""
-    if ANTHROPIC_API_KEY:
-        try:
-            import anthropic
-            client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-            resp = client.messages.create(
-                model="claude-haiku-4-5-20251001",
-                max_tokens=8,
-                messages=[{
-                    "role": "user",
-                    "content": (
-                        "將以下筆記分類為：工作、生活、學習、想法、待辦、其他。"
-                        "只回答分類名稱，不要任何其他文字。\n\n" + text
-                    ),
-                }],
-            )
-            tag = resp.content[0].text.strip()
-            if tag in ("工作", "生活", "學習", "想法", "待辦", "其他"):
-                return tag
-        except Exception:
-            pass
+    """Classify note into one of 6 tags. Uses Gemini if key is set."""
+    if GEMINI_API_KEY:
+        tag = await _gemini_generate(
+            "將以下筆記分類為：工作、生活、學習、想法、待辦、其他。"
+            "只回答分類名稱，不要任何其他文字。\n\n" + text,
+            max_tokens=8,
+        )
+        tag = tag.strip()
+        if tag in ("工作", "生活", "學習", "想法", "待辦", "其他"):
+            return tag
 
     # Keyword fallback
     if any(w in text for w in ["工作", "專案", "會議", "報告", "客戶", "deadline", "同事"]):
@@ -166,27 +193,13 @@ async def classify_tag(text: str) -> str:
 
 async def ai_note_comment(text: str) -> str:
     """Return a warm, personality-rich reply about the note."""
-    if not ANTHROPIC_API_KEY:
-        return ""
-    try:
-        import anthropic
-        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-        resp = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=120,
-            system=HUABOT_PERSONA,
-            messages=[{
-                "role": "user",
-                "content": (
-                    "用戶剛剛記了一則筆記，請你以好朋友的身份給一個溫暖回應。"
-                    "可以開個小玩笑、追問細節、或給建議。"
-                    "回應 30 字以內，自然且有溫度：\n\n" + text
-                ),
-            }],
-        )
-        return resp.content[0].text.strip()
-    except Exception:
-        return ""
+    return await _gemini_generate(
+        "用戶剛剛記了一則筆記，請你以好朋友的身份給一個溫暖回應。"
+        "可以開個小玩笑、追問細節、或給建議。"
+        "回應 30 字以內，自然且有溫度：\n\n" + text,
+        system=HUABOT_PERSONA,
+        max_tokens=120,
+    )
 
 
 def _tag_to_type(tag: str) -> str:
@@ -376,29 +389,17 @@ async def fetch_news_headlines(n: int = 5) -> list[dict]:
 
 
 async def ai_news_impact(headlines: list[dict]) -> str:
-    """Use Claude to write a 2-3 sentence impact summary for today's news."""
-    if not ANTHROPIC_API_KEY or not headlines:
+    """Use Gemini to write a 2-3 sentence impact summary for today's news."""
+    if not headlines:
         return ""
-    try:
-        import anthropic
-        client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
-        headline_text = "\n".join(f"・{h['title']}" for h in headlines)
-        resp = await client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=180,
-            messages=[{
-                "role": "user",
-                "content": (
-                    "以下是今日台灣新聞頭條，請用 2-3 句話分析這些新聞對一般上班族今天的日常生活"
-                    "可能有什麼影響或需要注意的事（繁體中文，口吻輕鬆直接，不要列點）：\n\n"
-                    + headline_text
-                ),
-            }],
-        )
-        return resp.content[0].text.strip()
-    except Exception as e:
-        print(f"[News AI] impact failed: {e}")
-        return ""
+    headline_text = "\n".join(f"・{h['title']}" for h in headlines)
+    return await _gemini_generate(
+        "以下是今日台灣新聞頭條，請用 2-3 句話分析這些新聞對一般上班族今天的日常生活"
+        "可能有什麼影響或需要注意的事（繁體中文，口吻輕鬆直接，不要列點）：\n\n"
+        + headline_text,
+        system=HUABOT_PERSONA,
+        max_tokens=180,
+    )
 
 
 # ============================================================
@@ -411,27 +412,16 @@ _MOOD_EMOJI  = {"開心": "😊", "普通": "😐", "低落": "😔",
 
 async def ai_diary_mood(text: str) -> str:
     """Classify diary entry into one of the 6 moods."""
-    if ANTHROPIC_API_KEY:
-        try:
-            import anthropic
-            client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
-            moods = "、".join(_DIARY_MOODS)
-            resp = await client.messages.create(
-                model="claude-haiku-4-5-20251001",
-                max_tokens=8,
-                messages=[{
-                    "role": "user",
-                    "content": (
-                        f"根據以下日記內容，從「{moods}」中選出最符合的心情，"
-                        "只回答心情名稱，不加任何說明：\n\n" + text
-                    ),
-                }],
-            )
-            mood = resp.content[0].text.strip()
-            if mood in _DIARY_MOODS:
-                return mood
-        except Exception:
-            pass
+    if GEMINI_API_KEY:
+        moods = "、".join(_DIARY_MOODS)
+        mood = await _gemini_generate(
+            f"根據以下日記內容，從「{moods}」中選出最符合的心情，"
+            "只回答心情名稱，不加任何說明：\n\n" + text,
+            max_tokens=8,
+        )
+        mood = mood.strip()
+        if mood in _DIARY_MOODS:
+            return mood
 
     # Keyword fallback
     if any(w in text for w in ["開心", "高興", "快樂", "爽", "棒", "讚", "超好"]):
@@ -449,27 +439,13 @@ async def ai_diary_mood(text: str) -> str:
 
 async def ai_diary_reflection(text: str) -> str:
     """Warm, personality-rich reflection on a diary entry."""
-    if not ANTHROPIC_API_KEY:
-        return ""
-    try:
-        import anthropic
-        client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
-        resp = await client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=150,
-            system=HUABOT_PERSONA,
-            messages=[{
-                "role": "user",
-                "content": (
-                    "用戶寫了一篇日記，請你像好朋友一樣回應。"
-                    "可以開玩笑、表達關心、追問細節、或給建議。"
-                    "回應 40 字以內，要有溫度且真誠：\n\n" + text
-                ),
-            }],
-        )
-        return resp.content[0].text.strip()
-    except Exception:
-        return ""
+    return await _gemini_generate(
+        "用戶寫了一篇日記，請你像好朋友一樣回應。"
+        "可以開玩笑、表達關心、追問細節、或給建議。"
+        "回應 40 字以內，要有溫度且真誠：\n\n" + text,
+        system=HUABOT_PERSONA,
+        max_tokens=150,
+    )
 
 
 async def notion_diary_save(title: str, content: str, mood: str) -> bool:
@@ -574,30 +550,19 @@ async def interpret_cmd(request: str) -> tuple[str | None, str]:
         if key in request:
             return key, f"執行：{key}"
 
-    if not ANTHROPIC_API_KEY:
+    if not GEMINI_API_KEY:
         opts = "、".join(SAFE_CMDS)
         return None, f"無法解析。可用指令：{opts}"
 
-    try:
-        import anthropic
-        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-        opts = "、".join(SAFE_CMDS)
-        resp = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=15,
-            messages=[{
-                "role": "user",
-                "content": (
-                    f"從下列選項選出最符合需求的指令，只回答名稱，不加任何說明：\n"
-                    f"選項：{opts}\n需求：{request}"
-                ),
-            }],
-        )
-        key = resp.content[0].text.strip()
-        if key in SAFE_CMDS:
-            return key, f"AI 解析：{key}"
-    except Exception:
-        pass
+    opts = "、".join(SAFE_CMDS)
+    key = await _gemini_generate(
+        f"從下列選項選出最符合需求的指令，只回答名稱，不加任何說明：\n"
+        f"選項：{opts}\n需求：{request}",
+        max_tokens=15,
+    )
+    key = key.strip()
+    if key in SAFE_CMDS:
+        return key, f"AI 解析：{key}"
 
     opts = "、".join(SAFE_CMDS)
     return None, f"無法對應指令。可用：{opts}"
@@ -948,7 +913,7 @@ async def slash_diagnose(interaction: discord.Interaction):
     lines.append(f"**NOTION_NOTES_DB**: {'✅ ' + NOTION_NOTES_DB[:8] + '...' if NOTION_NOTES_DB else '❌ 未設定'}")
     lines.append(f"**NOTION_DIARY_DB**: {'✅ ' + NOTION_DIARY_DB[:8] + '...' if NOTION_DIARY_DB else '❌ 未設定'}")
     lines.append(f"**NOTION_MORNING_DB**: {'✅ ' + NOTION_MORNING_DB[:8] + '...' if NOTION_MORNING_DB else '❌ 未設定'}")
-    lines.append(f"**ANTHROPIC_API_KEY**: {'✅ 已設定' if ANTHROPIC_API_KEY else '❌ 未設定'}")
+    lines.append(f"**GEMINI_API_KEY**: {'✅ 已設定' if GEMINI_API_KEY else '❌ 未設定'}")
     lines.append("")
 
     # Test Notion Notes DB
