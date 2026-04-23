@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>游欣樺 YU HSIN-HUA | 跨域產品人 × 人資專家</title>
+  <meta name="description" content="游欣樺的個人作品集 — 財金出身、人資實戰、產品思維，用數據說人話的跨域探索者。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FAF9F6',
+            sage: '#7C9A7E',
+            'sage-dark': '#5E7D60',
+            earth: '#A67C5B',
+            carbon: '#2D2D2D',
+            muted: '#6B6B6B',
+            bdr: '#E8E4DF',
+          },
+          fontFamily: {
+            serif: ['"Noto Serif TC"', 'serif'],
+            sans: ['"Noto Sans TC"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FAF9F6;
+      color: #2D2D2D;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-weight: 700;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Timeline */
+    .tl-item {
+      position: relative;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -1.65rem;
+      top: .45rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #7C9A7E;
+      border: 2px solid #FAF9F6;
+      box-shadow: 0 0 0 2px #7C9A7E;
+    }
+
+    /* Nav underline */
+    .nav-link::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background: #7C9A7E;
+      transform: scaleX(0);
+      transition: transform .25s ease;
+      transform-origin: left;
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Skill bar */
+    .skill-fill {
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #7C9A7E, #A67C5B);
+      transition: width 1s ease;
+    }
+
+    /* Project card */
+    .pcard {
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .pcard:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .09);
+    }
+
+    /* Award badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .25rem .75rem;
+      border-radius: 9999px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+
+    #mobile-menu {
+      transition: max-height .3s ease, opacity .3s ease;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ============================================================
+     NAVBAR
+============================================================ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/90 backdrop-blur-md border-b border-bdr">
+    <div class="max-w-5xl mx-auto px-6 flex items-center justify-between h-16">
+      <a href="#hero" class="font-serif text-lg font-bold text-carbon tracking-wide">游欣樺</a>
+      <div class="hidden md:flex items-center gap-7 text-sm font-medium text-muted">
+        <a href="#about" class="nav-link hover:text-carbon transition-colors">關於我</a>
+        <a href="#experience" class="nav-link hover:text-carbon transition-colors">經歷</a>
+        <a href="#projects" class="nav-link hover:text-carbon transition-colors">專案</a>
+        <a href="#awards" class="nav-link hover:text-carbon transition-colors">獎項</a>
+        <a href="#skills" class="nav-link hover:text-carbon transition-colors">技能</a>
+        <a href="https://beartwotw9-dot.github.io/portfolio/" target="_blank" rel="noopener"
+          class="nav-link hover:text-carbon transition-colors">🔗 線上版</a>
+        <a href="#contact"
+          class="bg-sage text-white px-4 py-1.5 rounded-full hover:bg-sage-dark transition-colors">聯絡我</a>
+      </div>
+      <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="開啟選單">
+        <span class="block w-6 h-0.5 bg-carbon transition-all" id="bar1"></span>
+        <span class="block w-6 h-0.5 bg-carbon transition-all" id="bar2"></span>
+        <span class="block w-6 h-0.5 bg-carbon transition-all" id="bar3"></span>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 opacity-0 px-6 bg-cream border-b border-bdr">
+      <div class="flex flex-col gap-4 py-4 text-sm font-medium text-muted">
+        <a href="#about" class="ml-close hover:text-carbon">關於我</a>
+        <a href="#experience" class="ml-close hover:text-carbon">經歷</a>
+        <a href="#projects" class="ml-close hover:text-carbon">專案</a>
+        <a href="#awards" class="ml-close hover:text-carbon">獎項</a>
+        <a href="#skills" class="ml-close hover:text-carbon">技能</a>
+        <a href="https://beartwotw9-dot.github.io/portfolio/" target="_blank" rel="noopener"
+          class="ml-close text-earth font-semibold">🔗 線上版</a>
+        <a href="#contact" class="ml-close text-sage font-semibold">聯絡我</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+     HERO
+============================================================ -->
+  <section id="hero" class="min-h-screen flex items-center pt-16">
+    <div class="max-w-5xl mx-auto px-6 w-full py-24">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-12">
+        <!-- Avatar -->
+        <div class="flex-shrink-0">
+          <div
+            class="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden ring-4 ring-sage/30 ring-offset-4 ring-offset-cream bg-gradient-to-br from-sage/30 to-earth/20 flex items-center justify-center">
+            <span class="font-serif text-6xl text-sage font-bold">游</span>
+          </div>
+        </div>
+        <!-- Text -->
+        <div class="text-center md:text-left">
+          <p class="text-earth font-medium tracking-widest text-xs uppercase mb-3">YU, HSIN-HUA · Portfolio 2025</p>
+          <h1 class="section-title text-4xl md:text-5xl lg:text-6xl text-carbon leading-tight mb-4">
+            跨越資料與人心，<br />
+            <span class="text-sage">讓決策有溫度。</span>
+          </h1>
+          <p class="text-muted text-lg max-w-xl leading-relaxed mb-8">
+            財金系出身，深耕人資與組織發展，擅用 Python、Power BI 與生成式 AI 將複雜數據轉化為可執行的洞察。<br class="hidden md:block" />
+            目前在 <strong class="text-carbon">成鼎電工</strong> 直屬執行長推動變革，同時在 <strong class="text-carbon">FriendLab</strong>
+            做產品 QA。
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+            <a href="#projects"
+              class="bg-sage text-white px-6 py-3 rounded-full font-medium hover:bg-sage-dark transition-colors text-center">瀏覽專案
+              →</a>
+            <a href="#contact"
+              class="border border-sage text-sage px-6 py-3 rounded-full font-medium hover:bg-sage/10 transition-colors text-center">與我聯繫</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-bdr pt-10">
+        <div class="text-center">
+          <p class="text-3xl font-bold font-serif text-sage">3.79</p>
+          <p class="text-muted text-sm mt-1">GPA／系排第四</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold font-serif text-sage">14</p>
+          <p class="text-muted text-sm mt-1">專業證照</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold font-serif text-sage">50+</p>
+          <p class="text-muted text-sm mt-1">商業競賽場次</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold font-serif text-sage">1,000+</p>
+          <p class="text-muted text-sm mt-1">財務紀錄處理筆數</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     ABOUT
+============================================================ -->
+  <section id="about" class="py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="reveal flex flex-col md:flex-row gap-16 items-start">
+        <div class="md:w-1/3 md:sticky top-24">
+          <p class="text-earth font-medium tracking-widest text-xs uppercase mb-2">About Me</p>
+          <h2 class="section-title text-3xl text-carbon leading-snug">關於我</h2>
+          <div class="mt-3 w-10 h-1 bg-sage rounded"></div>
+          <div class="mt-6 space-y-2 text-sm text-muted">
+            <p>📍 台北市</p>
+            <p>🎓 國立臺北商業大學 財務金融系</p>
+            <p>📅 預計 2026 年 6 月畢業</p>
+            <p>📧 <a href="mailto:doratwotw@gmail.com" class="text-sage hover:underline">doratwotw@gmail.com</a></p>
+            <p>📞 0970-513-917</p>
+          </div>
+        </div>
+        <div class="md:w-2/3 space-y-5 text-muted leading-relaxed">
+          <p>
+            我的起點是財務金融系，但讓我最著迷的從來不只是報表上的數字，而是<strong
+              class="text-carbon">數字背後的人是怎麼做決定的</strong>。這份好奇心帶我走進人資、走進組織發展，最終也走進產品思維的世界。
+          </p>
+          <p>
+            目前以<strong class="text-carbon">組織發展專員</strong>身份直屬執行長，統籌全公司教育訓練、跨部門專案與組織架構規劃；同步在 FriendLab 擔任<strong
+              class="text-carbon">產品實習生</strong>，負責 SaaS 平台的 QA 測試設計。每一個角色都在訓練我：用嚴謹的數據思維，服務有溫度的人。
+          </p>
+          <p>
+            我相信好的決策需要三件事：清晰的框架、可靠的數據，以及理解人的能力。這三者的交集，是我持續追求的。
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="bg-cream rounded-xl p-5 border border-bdr">
+              <div class="text-2xl mb-2">🌱</div>
+              <h3 class="font-semibold text-carbon mb-1">永續思維</h3>
+              <p class="text-sm">持有 ESG 永續發展基礎能力測驗證照，曾主導碳權政策研究並於系所發表。</p>
+            </div>
+            <div class="bg-cream rounded-xl p-5 border border-bdr">
+              <div class="text-2xl mb-2">📊</div>
+              <h3 class="font-semibold text-carbon mb-1">數據驅動</h3>
+              <p class="text-sm">Python × Power BI × 隨機森林，讓質化洞察有量化支撐。</p>
+            </div>
+            <div class="bg-cream rounded-xl p-5 border border-bdr">
+              <div class="text-2xl mb-2">🔗</div>
+              <h3 class="font-semibold text-carbon mb-1">跨域連接</h3>
+              <p class="text-sm">財金 × 人資 × 產品，能在三種語境間自由切換並整合資源。</p>
+            </div>
+            <div class="bg-cream rounded-xl p-5 border border-bdr">
+              <div class="text-2xl mb-2">🎤</div>
+              <h3 class="font-semibold text-carbon mb-1">引導與培訓</h3>
+              <p class="text-sm">95 小時非正規教育引導實務＋6 場內訓主持，擅長讓知識真正被接收。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     EXPERIENCE
+============================================================ -->
+  <section id="experience" class="py-24 bg-cream">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="reveal mb-14 text-center">
+        <p class="text-earth font-medium tracking-widest text-xs uppercase mb-2">Experience</p>
+        <h2 class="section-title text-3xl text-carbon">工作經歷</h2>
+        <div class="mt-3 mx-auto w-10 h-1 bg-sage rounded"></div>
+      </div>
+
+      <div class="relative ml-6 border-l-2 border-bdr pl-8 space-y-12">
+
+        <!-- FriendLab -->
+        <div class="reveal tl-item">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
+            <h3 class="font-semibold text-carbon text-lg">產品部實習生</h3>
+            <span class="text-xs bg-sage/15 text-sage px-3 py-1 rounded-full font-medium w-fit">2026.03 — 至今</span>
+          </div>
+          <p class="text-earth text-sm font-medium mb-3">FriendLab · 台北</p>
+          <ul class="space-y-1.5 text-muted text-sm list-disc list-inside">
+            <li>規劃 SaaS 平台 Social War Room（SWR）QA 測試，設計涵蓋 9 大模組約 <strong class="text-carbon">50 個測試案例</strong></li>
+            <li>獨立撰寫並管理 Linear Bug Issues，問題分級（Urgent／Medium）追蹤至 4/30 上線驗收</li>
+            <li>主導 Asana → Linear Issue 遷移，整合留言與附件確保資訊不流失</li>
+            <li>針對 FriendPass 進行潛客開發，建立 <strong class="text-carbon">60 筆</strong>目標客戶名單</li>
+            <li>跨職能協作：開發、設計、數據團隊，透過 LINE & Linear 協調優先序</li>
+          </ul>
+        </div>
+
+        <!-- 成鼎 OD -->
+        <div class="reveal tl-item">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
+            <h3 class="font-semibold text-carbon text-lg">組織發展專員</h3>
+            <span class="text-xs bg-sage/15 text-sage px-3 py-1 rounded-full font-medium w-fit">2026.04 — 至今</span>
+          </div>
+          <p class="text-earth text-sm font-medium mb-3">成鼎電工實業有限公司 · 台北</p>
+          <ul class="space-y-1.5 text-muted text-sm list-disc list-inside">
+            <li>直屬執行長，負責全公司層級專案管理與跨部門任務落地</li>
+            <li>擔任教育訓練總負責人，已完成 <strong class="text-carbon">6 場</strong>內訓課程；參與專業標竿講師計畫</li>
+            <li>主導 DPA 獎項申請、團險規劃、職稱訂定、組織架構規劃等跨部門專案</li>
+            <li>執行員工一對一關懷，維護組織氛圍與員工體驗</li>
+          </ul>
+        </div>
+
+        <!-- 成鼎 HR -->
+        <div class="reveal tl-item">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
+            <h3 class="font-semibold text-carbon text-lg">人力資源助理</h3>
+            <span class="text-xs bg-earth/15 text-earth px-3 py-1 rounded-full font-medium w-fit">2025.12 —
+              2026.04</span>
+          </div>
+          <p class="text-earth text-sm font-medium mb-3">成鼎電工實業有限公司 · 台北</p>
+          <ul class="space-y-1.5 text-muted text-sm list-disc list-inside">
+            <li><strong class="text-carbon">招募甄選</strong>：獨立負責 20 場以上線上面試，旁聽逾 50 場；建立結構化面試流程</li>
+            <li><strong class="text-carbon">制度建立</strong>：修訂 10 份以上內部管理規章；建立標準化入職流程</li>
+            <li><strong class="text-carbon">教育訓練</strong>：規劃並主持 4 場員工教育訓練，其中 1 場擔任主講人</li>
+            <li><strong class="text-carbon">專案行政</strong>：主導「小人提」政府補助申請；執行廠商比價議價</li>
+          </ul>
+        </div>
+
+        <!-- IMAG -->
+        <div class="reveal tl-item">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
+            <h3 class="font-semibold text-carbon text-lg">營運暨財務雙軌輪調實習生</h3>
+            <span class="text-xs bg-earth/15 text-earth px-3 py-1 rounded-full font-medium w-fit">2025.01 —
+              2025.12</span>
+          </div>
+          <p class="text-earth text-sm font-medium mb-3">艾邁格股份有限公司（IMAG） · 台北</p>
+          <ul class="space-y-1.5 text-muted text-sm list-disc list-inside">
+            <li>獨立開發財務小工具，顯著降低資料輸入錯誤率；建立標準化 HR 行政流程圖</li>
+            <li>協助招募 BE、HR、Account Intern 等職位，完整支援初試安排</li>
+            <li>獨立處理超過 <strong class="text-carbon">1,000 筆</strong>款項紀錄，支援 IPO 前期數據整併與合規審核</li>
+            <li>負責資產盤點專案，降低不必要辦公室行政支出</li>
+          </ul>
+        </div>
+
+        <!-- 起駛 -->
+        <div class="reveal tl-item">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
+            <h3 class="font-semibold text-carbon text-lg">人資組組員</h3>
+            <span class="text-xs bg-bdr text-muted px-3 py-1 rounded-full font-medium w-fit">2025.07 — 至今</span>
+          </div>
+          <p class="text-earth text-sm font-medium mb-3">起駛簡報表達教育協會</p>
+          <ul class="space-y-1.5 text-muted text-sm list-disc list-inside">
+            <li>負責跨部門成員聯絡，確保資訊透明、全員同步</li>
+            <li>支援協會內部人力需求統計與規章製作</li>
+          </ul>
+        </div>
+
+        <!-- 系學會 -->
+        <div class="reveal tl-item">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
+            <h3 class="font-semibold text-carbon text-lg">財務長</h3>
+            <span class="text-xs bg-bdr text-muted px-3 py-1 rounded-full font-medium w-fit">2024.05 — 2025.06</span>
+          </div>
+          <p class="text-earth text-sm font-medium mb-3">國立臺北商業大學第 20 屆財務金融系學會</p>
+          <ul class="space-y-1.5 text-muted text-sm list-disc list-inside">
+            <li>管理單學期逾 10 萬元公費現金，每月執行會計對帳確保帳務零誤差</li>
+            <li>主導系學會年度預算編列，整合跨部門資源配置</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     PROJECTS (含學術研究)
+============================================================ -->
+  <section id="projects" class="py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="reveal mb-14 text-center">
+        <p class="text-earth font-medium tracking-widest text-xs uppercase mb-2">Projects & Research</p>
+        <h2 class="section-title text-3xl text-carbon">專案與學術研究</h2>
+        <div class="mt-3 mx-auto w-10 h-1 bg-sage rounded"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- EcoFoodie -->
+        <div class="reveal pcard bg-cream rounded-2xl overflow-hidden border border-bdr">
+          <div class="h-48 overflow-hidden bg-sage/10">
+            <img src="ecofoodie.png" alt="EcoFoodie App 設計示意圖"
+              class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105" />
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs bg-sage/15 text-sage px-2.5 py-1 rounded-full font-medium">AI 驅動</span>
+              <span class="text-xs bg-earth/15 text-earth px-2.5 py-1 rounded-full font-medium">永續科技</span>
+              <span class="text-xs bg-bdr text-muted px-2.5 py-1 rounded-full font-medium">2025</span>
+            </div>
+            <h3 class="font-serif font-bold text-xl text-carbon mb-2">EcoFoodie：AI 惜食精準媒合平台</h3>
+            <p class="text-muted text-sm leading-relaxed mb-4">運用 Gemini AI 建立營運中台，進行商圈需求預測與動態定價；設計飲食身分證與 LBS
+              推播機制，根據用戶禁忌與消費趨勢精準媒合。</p>
+            <div class="space-y-1.5 text-sm">
+              <div class="flex gap-2"><span class="text-sage font-bold">✓</span><span class="text-muted">Gemini AI 動態定價
+                  × 個人化推播機制</span></div>
+              <div class="flex gap-2"><span class="text-sage font-bold">✓</span><span
+                  class="text-muted">數據貢獻系統：減碳量與節省金額視覺化</span></div>
+              <div class="flex gap-2"><span class="text-sage font-bold">✓</span><span
+                  class="text-muted">提升用戶對永續價值的參與感與行為改變</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SROI -->
+        <div class="reveal pcard bg-cream rounded-2xl overflow-hidden border border-bdr">
+          <div class="h-48 overflow-hidden bg-earth/10">
+            <img src="sroi.png" alt="SROI 模擬器儀表板設計示意圖"
+              class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105" />
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs bg-sage/15 text-sage px-2.5 py-1 rounded-full font-medium">政策分析</span>
+              <span class="text-xs bg-earth/15 text-earth px-2.5 py-1 rounded-full font-medium">社會影響力</span>
+              <span class="text-xs bg-bdr text-muted px-2.5 py-1 rounded-full font-medium">2025</span>
+            </div>
+            <h3 class="font-serif font-bold text-xl text-carbon mb-2">青壯世代心理健康政策 SROI 模擬器</h3>
+            <p class="text-muted text-sm leading-relaxed mb-4">整合心理健康、長照 2.0 等五大政策框架，建立動態經濟參數模型；運用 SROI
+              模型將政策影響力量化為政府節省成本與社會經濟價值指標。</p>
+            <div class="space-y-1.5 text-sm">
+              <div class="flex gap-2"><span class="text-earth font-bold">✓</span><span class="text-muted">SROI
+                  模型量化社會效益</span></div>
+              <div class="flex gap-2"><span class="text-earth font-bold">✓</span><span class="text-muted">KPI 儀表板 ×
+                  敏感度曲線，複雜數據直觀化</span></div>
+              <div class="flex gap-2"><span class="text-earth font-bold">✓</span><span
+                  class="text-muted">整合五大政策框架，提升政策說服力</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 碳權研究 -->
+        <div class="reveal pcard bg-cream rounded-2xl overflow-hidden border border-bdr">
+          <div class="h-44 bg-gradient-to-br from-sage/15 to-earth/15 flex items-center justify-center text-6xl">🌏
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs bg-sage/15 text-sage px-2.5 py-1 rounded-full font-medium">ESG</span>
+              <span class="text-xs bg-earth/15 text-earth px-2.5 py-1 rounded-full font-medium">學術研究</span>
+              <span class="text-xs bg-bdr text-muted px-2.5 py-1 rounded-full font-medium">2024–2025</span>
+            </div>
+            <h3 class="font-serif font-bold text-xl text-carbon mb-2">碳權政策研究 <span
+                class="text-base font-normal text-muted">— 組長</span></h3>
+            <p class="text-muted text-sm leading-relaxed mb-4">設計混合研究框架（系統性文獻回顧 + 跨國制度比較 + 結構式問卷），針對 30+ 國際碳排放監管框架（歐盟
+              ETS、加州、中國）進行比較制度分析。</p>
+            <div class="space-y-1.5 text-sm">
+              <div class="flex gap-2"><span class="text-sage font-bold">✓</span><span class="text-muted">比較分析 EU ETS、加州
+                  Cap-and-Trade、中國碳市場</span></div>
+              <div class="flex gap-2"><span class="text-sage font-bold">✓</span><span class="text-muted">提出
+                  MRV（監測、報告與核查）機制政策建議</span></div>
+              <div class="flex gap-2"><span class="text-sage font-bold">✓</span><span
+                  class="text-muted">於系所發表研究成果</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 點餐行為研究 -->
+        <div class="reveal pcard bg-cream rounded-2xl overflow-hidden border border-bdr">
+          <div class="h-44 bg-gradient-to-br from-earth/15 to-sage/20 flex items-center justify-center text-6xl">🤖
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs bg-sage/15 text-sage px-2.5 py-1 rounded-full font-medium">機器學習</span>
+              <span class="text-xs bg-earth/15 text-earth px-2.5 py-1 rounded-full font-medium">資料視覺化</span>
+              <span class="text-xs bg-bdr text-muted px-2.5 py-1 rounded-full font-medium">2024</span>
+            </div>
+            <h3 class="font-serif font-bold text-xl text-carbon mb-2">自動化點餐系統消費者行為研究 <span
+                class="text-base font-normal text-muted">— 組長</span></h3>
+            <p class="text-muted text-sm leading-relaxed mb-4">問卷蒐集 200+ 筆受訪者資料，以 Python
+              進行特徵工程，訓練隨機森林模型識別科技接受度關鍵因子；Power BI 儀表板供非技術背景利害關係人使用。</p>
+            <div class="space-y-1.5 text-sm">
+              <div class="flex gap-2"><span class="text-earth font-bold">✓</span><span
+                  class="text-muted">Python（pandas）資料清理 × 隨機森林分類</span></div>
+              <div class="flex gap-2"><span class="text-earth font-bold">✓</span><span class="text-muted">超參數調整 ×
+                  交叉驗證確保模型穩健性</span></div>
+              <div class="flex gap-2"><span class="text-earth font-bold">✓</span><span class="text-muted">Power BI
+                  多層次下鑽互動式儀表板</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     AWARDS
+============================================================ -->
+  <section id="awards" class="py-24 bg-cream">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="reveal mb-14 text-center">
+        <p class="text-earth font-medium tracking-widest text-xs uppercase mb-2">Awards</p>
+        <h2 class="section-title text-3xl text-carbon">榮譽與競賽獲獎</h2>
+        <div class="mt-3 mx-auto w-10 h-1 bg-sage rounded"></div>
+      </div>
+      <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="bg-white rounded-2xl p-6 border border-bdr flex gap-5 items-start">
+          <div class="text-3xl pt-1">🥉</div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-amber-100 text-amber-700">全國季軍</span>
+              <span class="text-xs text-muted">2024</span>
+            </div>
+            <h3 class="font-semibold text-carbon mb-1">第九屆新創盃全球創意創新創業企劃競賽</h3>
+            <p class="text-xs text-muted leading-relaxed">大專組網路行銷組。SWOT 市場分析、20+ 頁創業企劃書、APP 示意圖設計，整合財務規劃與行銷策略。</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-bdr flex gap-5 items-start">
+          <div class="text-3xl pt-1">🏅</div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-sage/15 text-sage">全國佳作（前 10%）</span>
+              <span class="text-xs text-muted">2024</span>
+            </div>
+            <h3 class="font-semibold text-carbon mb-1">全國大專財富管理競賽</h3>
+            <p class="text-xs text-muted leading-relaxed">對手 100+ 組。70% 核心資產 + 30% 衛星資產，預估年報酬率 10%+；領導 3 人團隊完成 15+
+              次模擬提案。</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-bdr flex gap-5 items-start">
+          <div class="text-3xl pt-1">🏆</div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-amber-100 text-amber-700">全國前六強</span>
+              <span class="text-xs text-muted">2024</span>
+            </div>
+            <h3 class="font-semibold text-carbon mb-1">全國少年頭家競賽</h3>
+            <p class="text-xs text-muted leading-relaxed">全國佳作 × 決賽前六強。22 頁商業企劃書，SWOT & STP 分析雲林市場，方案獲企業導師推薦落地。</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-bdr flex gap-5 items-start">
+          <div class="text-3xl pt-1">📈</div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-earth/15 text-earth">優選</span>
+              <span class="text-xs text-muted">2023</span>
+            </div>
+            <h3 class="font-semibold text-carbon mb-1">龍華科大賽全國投資競賽</h3>
+            <p class="text-xs text-muted leading-relaxed">技術分析 × 基本面雙軌模擬投資組合管理，獲評審肯定市場時機判斷能力。</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-bdr flex gap-5 items-start md:col-span-2">
+          <div class="text-3xl pt-1">🎙️</div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-sage/15 text-sage">團體第一名</span>
+              <span class="text-xs text-muted">2022</span>
+            </div>
+            <h3 class="font-semibold text-carbon mb-1">全校新生盃辯論比賽</h3>
+            <p class="text-xs text-muted leading-relaxed">在辯論賽中展現邏輯思維、臨場應變與說服力，這些能力持續沿用至今日的 HR 面試與產品提案。</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Leadership -->
+      <div class="reveal mt-10 bg-white rounded-2xl p-6 border border-bdr">
+        <h3 class="font-serif font-semibold text-carbon text-lg mb-5">領導與志願服務</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="text-center p-4 bg-sage/5 rounded-xl border border-bdr">
+            <div class="text-3xl mb-2">🏃</div>
+            <p class="font-semibold text-carbon text-sm">三校五系酒精路跑 總召</p>
+            <p class="text-xs text-muted mt-1">2025 · 統籌 70 位工作人員</p>
+          </div>
+          <div class="text-center p-4 bg-earth/5 rounded-xl border border-bdr">
+            <div class="text-3xl mb-2">🍵</div>
+            <p class="font-semibold text-carbon text-sm">茶會總召</p>
+            <p class="text-xs text-muted mt-1">2024 · 參與人數較往年成長 40%，滿意度 92%</p>
+          </div>
+          <div class="text-center p-4 bg-sage/5 rounded-xl border border-bdr">
+            <div class="text-3xl mb-2">🌻</div>
+            <p class="font-semibold text-carbon text-sm">人文城鄉共學計畫 隊輔</p>
+            <p class="text-xs text-muted mt-1">2022 · 95 小時志服，領導 55 位小學員</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     SKILLS
+============================================================ -->
+  <section id="skills" class="py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="reveal mb-14 text-center">
+        <p class="text-earth font-medium tracking-widest text-xs uppercase mb-2">Skills</p>
+        <h2 class="section-title text-3xl text-carbon">技能與工具</h2>
+        <div class="mt-3 mx-auto w-10 h-1 bg-sage rounded"></div>
+      </div>
+
+      <div class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- 數據分析 -->
+        <div class="skillcard bg-cream rounded-2xl p-6 border border-bdr">
+          <div class="text-3xl mb-3">📊</div>
+          <h3 class="font-serif font-semibold text-carbon text-lg mb-5">數據分析</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">Python（pandas,
+                  sklearn）</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:80%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">Power
+                  BI</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:82%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">R 語言</span><span
+                  class="text-xs text-muted">中階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:65%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">Excel /
+                  SQL</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:85%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI 工具 -->
+        <div class="skillcard bg-cream rounded-2xl p-6 border border-bdr">
+          <div class="text-3xl mb-3">🤖</div>
+          <h3 class="font-serif font-semibold text-carbon text-lg mb-5">AI 工具應用</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">ChatGPT /
+                  Claude</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">Gemini / Google AI
+                  Studio</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">Perplexity /
+                  NotebookLM</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:80%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">生成式 AI ×
+                  行政自動化</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:87%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 人資 & OD -->
+        <div class="skillcard bg-cream rounded-2xl p-6 border border-bdr">
+          <div class="text-3xl mb-3">🧠</div>
+          <h3 class="font-serif font-semibold text-carbon text-lg mb-5">人資 & 組織發展</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">招募甄選 & SOP
+                  建置</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">教育訓練設計 &
+                  主持</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:82%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">ESG
+                  政策規劃</span><span class="text-xs text-muted">中階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:72%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1.5"><span class="text-carbon font-medium">團體動力引導 &
+                  主動傾聽</span><span class="text-xs text-muted">進階</span></div>
+              <div class="h-1.5 bg-bdr rounded-full">
+                <div class="skill-fill" style="width:88%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Certs + Language row -->
+      <div class="reveal mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-cream rounded-2xl p-6 border border-bdr">
+          <h3 class="font-semibold text-carbon mb-4 flex items-center gap-2"><span class="text-xl">📜</span> 專業證照（14 張）
+          </h3>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="px-3 py-1.5 bg-sage/15 text-sage rounded-full font-medium">證券商高級業務員</span>
+            <span class="px-3 py-1.5 bg-sage/15 text-sage rounded-full font-medium">期貨商業務員</span>
+            <span class="px-3 py-1.5 bg-earth/15 text-earth rounded-full font-medium">ESG 永續發展基礎能力</span>
+            <span class="px-3 py-1.5 bg-bdr text-muted rounded-full font-medium">Google 基礎數位行銷</span>
+            <span class="px-3 py-1.5 bg-bdr text-muted rounded-full font-medium">……等共 14 張</span>
+          </div>
+        </div>
+        <div class="bg-cream rounded-2xl p-6 border border-bdr">
+          <h3 class="font-semibold text-carbon mb-4 flex items-center gap-2"><span class="text-xl">🌐</span> 語言能力</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-2 bg-sage/15 text-sage rounded-full text-sm font-medium">中文（母語）</span>
+            <span class="px-4 py-2 bg-earth/15 text-earth rounded-full text-sm font-medium">英文（流利）</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     CONTACT
+============================================================ -->
+  <section id="contact" class="py-24 bg-cream">
+    <div class="max-w-2xl mx-auto px-6 text-center">
+      <div class="reveal">
+        <p class="text-earth font-medium tracking-widest text-xs uppercase mb-2">Contact</p>
+        <h2 class="section-title text-3xl text-carbon mb-4">讓我們聊聊</h2>
+        <div class="mt-3 mx-auto w-10 h-1 bg-sage rounded mb-8"></div>
+        <p class="text-muted leading-relaxed mb-10">
+          我對<strong class="text-carbon">人資科技、組織發展、產品管理、ESG 相關</strong>職缺與合作保持開放態度。<br />
+          如果你覺得我們的想法有交集，歡迎直接寫信給我——通常 48 小時內回覆 🌿
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="mailto:doratwotw@gmail.com"
+            class="flex items-center justify-center gap-2 bg-sage text-white px-8 py-4 rounded-full font-medium hover:bg-sage-dark transition-colors text-base">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            doratwotw@gmail.com
+          </a>
+          <a href="https://beartwotw9-dot.github.io/portfolio/" target="_blank" rel="noopener"
+            class="flex items-center justify-center gap-2 border border-sage text-sage px-8 py-4 rounded-full font-medium hover:bg-sage/10 transition-colors text-base">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            線上作品集
+          </a>
+          <a href="https://www.notion.so/Hua-Portfolio-30d764881ec880608658ffd69e33e5d2" target="_blank" rel="noopener"
+            class="flex items-center justify-center gap-2 border border-earth/60 text-earth px-8 py-4 rounded-full font-medium hover:bg-earth/10 transition-colors text-base">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z" />
+            </svg>
+            Notion Portfolio
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     FOOTER
+============================================================ -->
+  <footer class="bg-carbon text-white py-8">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="font-serif text-lg font-bold text-sage">游欣樺 · YU HSIN-HUA</p>
+      <p class="text-sm text-white/40">© 2025 游欣樺 — 跨越資料與人心，讓決策有溫度。</p>
+      <a href="#hero" class="text-sm text-white/50 hover:text-white transition-colors">回到頂端 ↑</a>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+     SCRIPTS
+============================================================ -->
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mm = document.getElementById('mobile-menu');
+    const [b1, b2, b3] = ['bar1', 'bar2', 'bar3'].map(id => document.getElementById(id));
+    let open = false;
+    menuBtn.addEventListener('click', () => {
+      open = !open;
+      mm.style.maxHeight = open ? '280px' : '0';
+      mm.style.opacity = open ? '1' : '0';
+      b1.style.transform = open ? 'rotate(45deg) translate(4px,4px)' : 'none';
+      b2.style.opacity = open ? '0' : '1';
+      b3.style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : 'none';
+    });
+    document.querySelectorAll('.ml-close').forEach(l => l.addEventListener('click', () => {
+      open = false;
+      mm.style.maxHeight = '0'; mm.style.opacity = '0';
+      b1.style.transform = b3.style.transform = 'none'; b2.style.opacity = '1';
+    }));
+
+    // Scroll reveal
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    // Skill bars animate on scroll
+    const so = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.skill-fill').forEach(bar => {
+          const w = bar.style.width; bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = w; }, 150);
+        });
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('.skillcard').forEach(el => so.observe(el));
+
+    // Active nav highlight
+    const secs = document.querySelectorAll('section[id]');
+    const nls = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      secs.forEach(s => { if (window.scrollY >= s.offsetTop - 90) cur = s.id; });
+      nls.forEach(l => {
+        l.classList.toggle('text-carbon', l.getAttribute('href') === '#' + cur);
+      });
+    });
+  </script>
+</body>
+
+</html>
