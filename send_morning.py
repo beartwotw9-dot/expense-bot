@@ -43,7 +43,83 @@ def query_yesterday(yesterday):
     total = sum(abs(amt(p)) for p in pages)
     big = max(pages, key=lambda p: abs(amt(p)))
     return total, f"總計 **${total:,}**（共 {len(pages)} 筆）\n最大一筆：{name(big)} **${abs(amt(big)):,}**"
-def save_notion(today_str, market_text, email_text, expense):
+def clean_source_text(text, label):
+    if "invalid_grant" in text or "讀取失敗" in text:
+        return f"未同步。請重新授權 {label}。"
+    if "Unauthorized" in text or "查詢失敗" in text:
+        return f"未同步。請檢查 {label} 權限或 GitHub Secret。"
+    return text
+def checkbox_line(text):
+    return f"☐ {text}"
+def template_summary(comment, email_text, expense_text):
+    clean_email = clean_source_text(email_text, "Gmail")
+    clean_expense = clean_source_text(expense_text, "Notion")
+    return "\n".join([
+        f"- 市場：{comment}",
+        f"- 信箱：{clean_email.splitlines()[0][:90]}",
+        f"- 記帳：{clean_expense.splitlines()[0][:90]}",
+    ])
+def template_actions(email_text, expense_text):
+    items = ["打開 Today Hub，選 1 件最重要的事開始", "晚上補一行今日回顧"]
+    if "invalid_grant" in email_text or "讀取失敗" in email_text:
+        items.append("重新授權 Gmail，恢復信箱摘要")
+    if "Unauthorized" in expense_text or "查詢失敗" in expense_text:
+        items.append("更新 Notion token / database 權限，恢復花費回顧")
+    return "\n".join(checkbox_line(item) for item in items)
+def notion_rich_text(text):
+    return [{"type":"text","text":{"content":text[:2000]}}]
+def notion_heading(text, level=2):
+    key = "heading_2" if level == 2 else "heading_3"
+    return {"object":"block","type":key,key:{"rich_text":notion_rich_text(text)}}
+def notion_paragraph(text):
+    return {"object":"block","type":"paragraph","paragraph":{"rich_text":notion_rich_text(text)}}
+def notion_bullets(lines):
+    return [
+        {"object":"block","type":"bulleted_list_item","bulleted_list_item":{"rich_text":notion_rich_text(line.lstrip("- ").strip())}}
+        for line in lines if line.strip()
+    ]
+def notion_todos(lines):
+    return [
+        {"object":"block","type":"to_do","to_do":{"rich_text":notion_rich_text(line.replace("☐ ","",1).strip()),"checked":False}}
+        for line in lines if line.strip()
+    ]
+def build_notion_children(today_str, weekday, comment, market_text, email_text, expense_text):
+    summary = template_summary(comment, email_text, expense_text)
+    actions = template_actions(email_text, expense_text)
+    return [
+        notion_heading("🌅 每日晨報模板"),
+        notion_paragraph(f"日期：{today_str}（週{weekday}）"),
+        notion_heading("📌 今日摘要"),
+        *notion_bullets(summary.splitlines()),
+        notion_heading("✅ 今日行動"),
+        *notion_todos(actions.splitlines()),
+        notion_heading("📈 市場觀察"),
+        notion_paragraph(clean_source_text(market_text, "Market")),
+        notion_heading("📬 信箱摘要"),
+        notion_paragraph(clean_source_text(email_text, "Gmail")),
+        notion_heading("💰 昨日花費"),
+        notion_paragraph(clean_source_text(expense_text, "Notion")),
+        notion_heading("📝 晚間回顧"),
+        notion_paragraph("今天完成了：\n今天卡住了：\n明天第一步："),
+    ]
+def build_discord_embed(now, today_str, weekday, comment, market_text, market_preview, email_text, expense_text):
+    summary = template_summary(comment, email_text, expense_text)
+    actions = template_actions(email_text, expense_text)
+    return {
+        "title": f"🌅 {today_str} Morning Page",
+        "description": f"Notion-style daily template｜週{weekday}",
+        "color": 15844367,
+        "fields": [
+            {"name":"📌 今日摘要","value":summary[:1024],"inline":False},
+            {"name":"✅ 今日行動","value":actions[:1024],"inline":False},
+            {"name":"📈 市場觀察","value":f"{comment}\n\n{market_preview}"[:1024],"inline":False},
+            {"name":"📬 信箱摘要","value":clean_source_text(email_text, "Gmail")[:1024],"inline":False},
+            {"name":"💰 昨日花費","value":clean_source_text(expense_text, "Notion")[:1024],"inline":False},
+            {"name":"📝 晚間回顧模板","value":"今天完成了：\n今天卡住了：\n明天第一步：","inline":False},
+        ],
+        "footer":{"text":f"{today_str} GitHub Actions → Discord / Notion"},
+    }
+def save_notion(today_str, weekday, comment, market_text, email_text, expense_text, expense):
     if not NOTION_MORNING_DB: return
     try:
         httpx.post("https://api.notion.com/v1/pages",headers=NOTION_HEADERS,timeout=30,json={
@@ -54,7 +130,9 @@ def save_notion(today_str, market_text, email_text, expense):
                 "市場摘要":{"rich_text":[{"text":{"content":market_text[:2000]}}]},
                 "信箱摘要":{"rich_text":[{"text":{"content":email_text[:2000]}}]},
                 "昨日花費":{"number":expense},
-            }}).raise_for_status()
+            },
+            "children":build_notion_children(today_str, weekday, comment, market_text, email_text, expense_text),
+        }).raise_for_status()
         print("✅ Notion 寫入成功")
     except Exception as e:
         print(f"⚠️ Notion 失敗：{e}")
@@ -91,14 +169,8 @@ def main():
     email_text = fetch_emails()
     try: yest_total, expense_text = query_yesterday(yesterday)
     except Exception as e: yest_total=0; expense_text=f"查詢失敗：{e}"
-    embed = {"title":"🌅 早安 Hua！","description":f"今天是 **{now.strftime('%Y年%m月%d日')}**（週{weekday}）",
-        "color":15844367,"fields":[
-            {"name":"📈 市場行情","value":mv,"inline":False},
-            {"name":"💬 市場觀察","value":comment,"inline":False},
-            {"name":"📧 信箱摘要","value":email_text[:1024],"inline":False},
-            {"name":"💰 昨日花費","value":expense_text,"inline":False}],
-        "footer":{"text":f"{today_str} 由 GitHub Actions 自動發送"}}
-    save_notion(today_str, mt, email_text, yest_total)
+    embed = build_discord_embed(now, today_str, weekday, comment, mt, mv, email_text, expense_text)
+    save_notion(today_str, weekday, comment, mt, email_text, expense_text, yest_total)
     send_discord(embed)
 if __name__=="__main__":
     main()
