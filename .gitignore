@@ -1,4 +1,5 @@
 .env
+.venv/
 token.json
 client_secret_*.json
 email_cache.json
