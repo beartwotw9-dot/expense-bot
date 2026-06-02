@@ -7,8 +7,8 @@ WEEKDAYS = ["一","二","三","四","五","六","日"]
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN","")
 DISCORD_CHANNEL_ID = os.environ.get("DISCORD_CHANNEL_ID","")
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL","")
-NOTION_TOKEN = os.environ["NOTION_TOKEN"]
-NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
+NOTION_TOKEN = os.environ.get("NOTION_TOKEN","")
+NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID","")
 NOTION_MORNING_DB = os.environ.get("NOTION_MORNING_DB","")
 NOTION_HEADERS = {"Authorization":f"Bearer {NOTION_TOKEN}","Notion-Version":"2022-06-28","Content-Type":"application/json"}
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -32,6 +32,8 @@ def fetch_emails():
     except Exception as e:
         return f"Gmail 讀取失敗：{e}"
 def query_yesterday(yesterday):
+    if not NOTION_TOKEN or not NOTION_DATABASE_ID:
+        return 0, "未同步，請檢查 Notion 權限或 GitHub Secret。"
     r = httpx.post(f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query",
         headers=NOTION_HEADERS,json={"filter":{"property":"日期","date":{"equals":yesterday}}},timeout=30)
     r.raise_for_status()
@@ -44,10 +46,26 @@ def query_yesterday(yesterday):
     big = max(pages, key=lambda p: abs(amt(p)))
     return total, f"總計 **${total:,}**（共 {len(pages)} 筆）\n最大一筆：{name(big)} **${abs(amt(big)):,}**"
 def clean_source_text(text, label):
-    if "invalid_grant" in text or "讀取失敗" in text:
-        return f"未同步。請重新授權 {label}。"
-    if "Unauthorized" in text or "查詢失敗" in text:
-        return f"未同步。請檢查 {label} 權限或 GitHub Secret。"
+    text = str(text)
+    if "未同步" in text:
+        return text
+    auth_markers = [
+        "invalid_grant",
+        "Unauthorized",
+        "401",
+        "403",
+        "Bad Request",
+        "讀取失敗",
+        "查詢失敗",
+        "token 不存在或失效",
+        "未授權",
+    ]
+    if any(marker in text for marker in auth_markers):
+        if label == "Gmail":
+            return "未同步，請重新授權 Gmail。"
+        if label == "Notion":
+            return "未同步，請檢查 Notion 權限或 GitHub Secret。"
+        return f"未同步，請檢查 {label} 權限。"
     return text
 def checkbox_line(text):
     return f"☐ {text}"
@@ -61,10 +79,10 @@ def template_summary(comment, email_text, expense_text):
     ])
 def template_actions(email_text, expense_text):
     items = ["打開 Today Hub，選 1 件最重要的事開始", "晚上補一行今日回顧"]
-    if "invalid_grant" in email_text or "讀取失敗" in email_text:
-        items.append("重新授權 Gmail，恢復信箱摘要")
-    if "Unauthorized" in expense_text or "查詢失敗" in expense_text:
-        items.append("更新 Notion token / database 權限，恢復花費回顧")
+    if clean_source_text(email_text, "Gmail").startswith("未同步"):
+        items.append("未同步，請重新授權 Gmail")
+    if clean_source_text(expense_text, "Notion").startswith("未同步"):
+        items.append("未同步，請檢查 Notion 權限或 GitHub Secret")
     return "\n".join(checkbox_line(item) for item in items)
 def notion_rich_text(text):
     return [{"type":"text","text":{"content":text[:2000]}}]
@@ -122,20 +140,22 @@ def build_discord_embed(now, today_str, weekday, comment, market_text, market_pr
 def save_notion(today_str, weekday, comment, market_text, email_text, expense_text, expense):
     if not NOTION_MORNING_DB: return
     try:
+        clean_email = clean_source_text(email_text, "Gmail")
+        clean_expense = clean_source_text(expense_text, "Notion")
         httpx.post("https://api.notion.com/v1/pages",headers=NOTION_HEADERS,timeout=30,json={
             "parent":{"database_id":NOTION_MORNING_DB},
             "properties":{
                 "標題":{"title":[{"text":{"content":f"{today_str} 晨報"}}]},
                 "日期":{"date":{"start":today_str}},
                 "市場摘要":{"rich_text":[{"text":{"content":market_text[:2000]}}]},
-                "信箱摘要":{"rich_text":[{"text":{"content":email_text[:2000]}}]},
+                "信箱摘要":{"rich_text":[{"text":{"content":clean_email[:2000]}}]},
                 "昨日花費":{"number":expense},
             },
-            "children":build_notion_children(today_str, weekday, comment, market_text, email_text, expense_text),
+            "children":build_notion_children(today_str, weekday, comment, market_text, clean_email, clean_expense),
         }).raise_for_status()
         print("✅ Notion 寫入成功")
     except Exception as e:
-        print(f"⚠️ Notion 失敗：{e}")
+        print(f"⚠️ {clean_source_text(f'查詢失敗：{e}', 'Notion')}")
 def discord_headers():
     token = DISCORD_TOKEN.strip()
     authorization = token if token.lower().startswith("bot ") else f"Bot {token}"
