@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 load_dotenv()
 TAIPEI = pytz.timezone("Asia/Taipei")
 WEEKDAYS = ["一","二","三","四","五","六","日"]
-DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
-DISCORD_CHANNEL_ID = os.environ["DISCORD_CHANNEL_ID"]
+DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN","")
+DISCORD_CHANNEL_ID = os.environ.get("DISCORD_CHANNEL_ID","")
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL","")
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
 NOTION_MORNING_DB = os.environ.get("NOTION_MORNING_DB","")
 NOTION_HEADERS = {"Authorization":f"Bearer {NOTION_TOKEN}","Notion-Version":"2022-06-28","Content-Type":"application/json"}
-DISCORD_HEADERS = {"Authorization":f"Bot {DISCORD_TOKEN}","Content-Type":"application/json"}
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import market as mkt
 def restore_gmail_token():
@@ -58,6 +58,27 @@ def save_notion(today_str, market_text, email_text, expense):
         print("✅ Notion 寫入成功")
     except Exception as e:
         print(f"⚠️ Notion 失敗：{e}")
+def discord_headers():
+    token = DISCORD_TOKEN.strip()
+    authorization = token if token.lower().startswith("bot ") else f"Bot {token}"
+    return {"Authorization":authorization,"Content-Type":"application/json"}
+def send_discord(embed):
+    if DISCORD_WEBHOOK_URL:
+        r = httpx.post(DISCORD_WEBHOOK_URL,json={"embeds":[embed]},timeout=30)
+    elif DISCORD_TOKEN and DISCORD_CHANNEL_ID:
+        r = httpx.post(f"https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages",
+            headers=discord_headers(),json={"embeds":[embed]},timeout=30)
+    else:
+        print("⚠️ Discord 略過：請設定 DISCORD_WEBHOOK_URL，或同時設定 DISCORD_TOKEN / DISCORD_CHANNEL_ID")
+        return
+    if r.status_code == 401:
+        print("⚠️ Discord 授權失敗：請更新 GitHub Secret DISCORD_TOKEN，或改用 DISCORD_WEBHOOK_URL")
+        return
+    if r.status_code == 403:
+        print("⚠️ Discord 權限不足：請確認 bot 已加入伺服器且可在該 channel 發訊息")
+        return
+    r.raise_for_status()
+    print("✅ Discord 發送成功")
 def main():
     restore_gmail_token()
     now = datetime.now(TAIPEI)
@@ -77,10 +98,7 @@ def main():
             {"name":"📧 信箱摘要","value":email_text[:1024],"inline":False},
             {"name":"💰 昨日花費","value":expense_text,"inline":False}],
         "footer":{"text":f"{today_str} 由 GitHub Actions 自動發送"}}
-    r = httpx.post(f"https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages",
-        headers=DISCORD_HEADERS,json={"embeds":[embed]},timeout=30)
-    r.raise_for_status()
-    print("✅ Discord 發送成功")
     save_notion(today_str, mt, email_text, yest_total)
+    send_discord(embed)
 if __name__=="__main__":
     main()
